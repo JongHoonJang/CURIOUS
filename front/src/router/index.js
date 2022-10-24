@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import RandingView from '@/views/randing/RandingView'
-import LoginView from '@/views/randing/LoginView'
-import ProfileView from '@/views/randing/ProfileView'
-import MetaverseView from '@/views/randing/MetaverseView'
-import MainView from '@/views/randing/MainView'
+import LoginView from '@/views/account/LoginView'
+import ProfileView from '@/views/account/ProfileView'
+import MetaverseView from '@/views/metaverse/MetaverseView'
+import MainView from '@/views/main/MainView'
 
 const routes = [
   {
