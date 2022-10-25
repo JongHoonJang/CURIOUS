@@ -19,4 +19,4 @@ RUN rm -rf /usr/share/nginx/html/*
 COPY --from=builder /var/jenkins_home/workspace/deployProject/front/dist /usr/share/nginx/html
 
 EXPOSE 80
-EXTRYPOINT ["nginx", "-g", "daemon off;"]
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
