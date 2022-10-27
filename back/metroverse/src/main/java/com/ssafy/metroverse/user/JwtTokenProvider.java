@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import com.ssafy.metroverse.user.service.UserService;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -23,10 +24,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Component
 public class JwtTokenProvider {
-	@Value("Metroverse107!")
+	@Value("Curious107!")
 	private String secretKey;
-	// 토큰 유효시간 30분
-	private final long tokenValidTime = 30 * 60 * 1000L;
+	private final long tokenValidTime = 30 * 60 * 1000L; // access 토큰 유효시간 30분
+	private final long refreshTokenVaildTime = 7 * 24 * 60 * 60 * 1000L; // refresh 토큰 유효시간 7일
 	private final UserService userService;
 
 	// 객체 초기화, secretKey를 Base64로 인코딩
@@ -52,6 +53,15 @@ public class JwtTokenProvider {
 			.compact();
 	}
 
+	public String createRefreshToken(){
+		Date now = new Date();
+		return Jwts.builder()
+			.setIssuedAt(now)
+			.setExpiration(new Date(now.getTime() + refreshTokenVaildTime))
+			.signWith(SignatureAlgorithm.HS256, secretKey)
+			.compact();
+	}
+
 	/**
 	 * JWT 토큰에서 인증 정보 조회
 	 * @param token JWT 토큰
@@ -68,7 +78,12 @@ public class JwtTokenProvider {
 	 * @return 회원 정보
 	 */
 	public String getUserId(String token) {
-		return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+		try{
+			return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+		} catch (ExpiredJwtException e){
+			return e.getClaims().getSubject();
+		}
+
 	}
 
 	/**
