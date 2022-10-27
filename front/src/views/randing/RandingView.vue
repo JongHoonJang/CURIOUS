@@ -1,29 +1,36 @@
 <template>
   <div>
-    <div class="main">
-      <img class="main-img" src="@/assets/landing/dumpMain.png" alt="" />
-    </div>
-    <div class="sub">
-      <div class="sub1 part">
-        <img data-aos="fade-down-right" class="sub1-img" src="@/assets/landing/landingSub1.png" alt="" />
-        <div class="text">
+    <div
+      class="landingLine"
+      :style="{ backgroundImage: 'url(' + require(`@/assets/landing/landing_line.png`) + ')', 'background-repeat': 'no-repeat', 'background-size': 'contain', 'background-position': 'center' }"
+    >
+      <!-- 1번 메인 페이지, 애니메이션 예정 -->
+      <section class="first">
+        <img class="first-img" src="@/assets/landing/dump_main.png" alt="" />
+      </section>
+      <!-- 2번 메인 페이지 -->
+      <section class="second">
+        <img data-aos="fade-down-right" class="second-img" src="@/assets/landing/landingSub1.png" alt="" />
+        <div class="text" data-aos="zoom-in">
           메타버스
           <br />
           안전 교육
         </div>
-      </div>
-      <div class="sub2 part">
-        <img data-aos="fade-down-left" class="sub2-img" src="@/assets/landing/landingSub2.png" alt="" />
-        <div class="text">
+      </section>
+      <!-- 3번 메인 페이지 -->
+      <section class="third">
+        <img data-aos="fade-down-left" class="third-img" src="@/assets/landing/landingSub2.png" alt="" />
+        <div class="text" data-aos="zoom-in">
           퀴즈로
           <br />
           학습과 체크
         </div>
-      </div>
-      <div class="sub3 part">
-        <img data-aos="zoom-in" class="sub3-img" src="@/assets/landing/landingSub3.png" alt="" />
-        <div class="text">멋진 추억</div>
-      </div>
+      </section>
+      <!-- 4번 메인 페이지, 시작하기 -->
+      <section class="fourth">
+        <img data-aos="zoom-in" class="fourth-img" src="@/assets/landing/landingSub3.png" alt="" />
+        <div class="text fourth-text" data-aos="zoom-in">멋진 추억</div>
+      </section>
       <div class="wrap">
         <button class="button" @click="start()">시작하기</button>
       </div>
@@ -46,14 +53,22 @@ export default {
 };
 </script>
 
-<style>
-.main {
-  margin-top: 8vh;
+<style scoped>
+section {
+  height: 100vh;
+  width: 100vw;
+  /* border-top: 2px dashed rgba(0, 0, 0, 0.5); */
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 }
 
-.main-img {
-  height: 90vh;
-  width: 100vw;
+.third {
+  flex-direction: row-reverse;
+}
+
+.fourth {
+  justify-content: space-evenly;
 }
 
 .text {
@@ -62,31 +77,27 @@ export default {
   font-weight: 400;
   font-size: 4rem;
 }
-.part {
-  width: 100vw;
+
+.fourth-text {
+  margin-right: 10vw;
+}
+
+.first-img {
+  margin-top: 5vh;
+  height: 90vh;
+}
+
+.second-img {
+  margin-top: 10vh;
   height: 60vh;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-}
-.sub1 {
-  flex-direction: row;
 }
 
-.sub1-img {
-  height: 100%;
+.third-img {
+  height: 60vh;
 }
 
-.sub2 {
-  flex-direction: row-reverse;
-}
-
-.sub2-img {
-  height: 100%;
-}
-
-.sub3-img {
-  height: 100%;
+.fourth-img {
+  height: 70vh;
 }
 
 /* 버튼 CSS */
