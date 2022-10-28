@@ -2,6 +2,8 @@ package com.ssafy.metroverse.oauth.service;
 
 import static com.ssafy.metroverse.user.UserConstant.*;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.security.core.Authentication;
@@ -10,8 +12,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.metroverse.global.model.Role;
+import com.ssafy.metroverse.global.model.SocialType;
 import com.ssafy.metroverse.oauth.auth.KaKaoOAuth2;
-import com.ssafy.metroverse.oauth.dto.KakaoToken;
+import com.ssafy.metroverse.oauth.auth.SocialOAuth2;
+import com.ssafy.metroverse.oauth.dto.SocialToken;
 import com.ssafy.metroverse.user.JwtTokenProvider;
 import com.ssafy.metroverse.user.domain.User;
 import com.ssafy.metroverse.user.dto.TokenRequest;
@@ -30,6 +34,7 @@ public class OAuthService {
 	private final PasswordEncoder passwordEncoder;
 	private final KaKaoOAuth2 kaKaoOAuth2;
 	private final UserRepository userRepository;
+	private final List<SocialOAuth2> socialOAuth2List;
 
 	private boolean isExistEmail(String email) {
 		return userRepository.findByEmail(email).isPresent();
@@ -75,9 +80,10 @@ public class OAuthService {
 			.orElseThrow(() -> new IllegalArgumentException(NOT_FOUND_EMAIL_ERROR_MESSAGE));
 	}
 
-	public TokenResponse kakaoLogin(String authorizedCode) {
-		// 카카오 OAuth2를 통해 카카오 사용자 정보 조회
-		KakaoToken userInfo = kaKaoOAuth2.getUserInfo(authorizedCode);
+	public TokenResponse socialLogin(String authorizedCode, SocialType socialType) {
+		// OAuth2를 통해 카카오 사용자 정보 조회
+		SocialOAuth2 socialOAuth2 = findSocialOauthByType(socialType);
+		SocialToken userInfo = socialOAuth2.getUserInfo(authorizedCode);
 
 		String email = userInfo.getEmail();
 		String username = userInfo.getNickname();
@@ -92,5 +98,10 @@ public class OAuthService {
 
 		// 로그인 처리
 		return login(email);
+	}
+
+	private SocialOAuth2 findSocialOauthByType(SocialType socialType) {
+		return socialOAuth2List.stream().filter(auth -> auth.type() == socialType)
+			.findFirst().orElseThrow(() -> new IllegalArgumentException("잘못된 소셜 로그인입니다."));
 	}
 }
