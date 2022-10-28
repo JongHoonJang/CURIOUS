@@ -12,9 +12,10 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import com.ssafy.metroverse.oauth.dto.KakaoToken;
+import com.ssafy.metroverse.oauth.dto.SocialToken;
 
 @Component
-public class KaKaoOAuth2 {
+public class KaKaoOAuth2 implements SocialOAuth2 {
 
 	@Value("${spring.social.kakao.url.login}")
 	private String KAKAO_LOGIN_URL;
@@ -23,15 +24,15 @@ public class KaKaoOAuth2 {
 	@Value("${spring.social.kakao.redirect}")
 	private String KAKAO_REDIRECT_URI;
 
-	public KakaoToken getUserInfo(String authorizedCode) {
+	public SocialToken getUserInfo(String authorizedCode) {
 		// 1. 인가코드 -> 액세스 토큰
-		String accessToken = getAccessToken(authorizedCode);
-		KakaoToken userInfo = getUserInfoByToken(accessToken);
+		String accessToken = this.getAccessToken(authorizedCode);
+		SocialToken userInfo = this.getUserInfoByToken(accessToken);
 
 		return userInfo;
 	}
 
-	private String getAccessToken(String authorizedCode) {
+	public String getAccessToken(String authorizedCode) {
 		// HttpHeader 오브젝트 생성
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
@@ -49,7 +50,7 @@ public class KaKaoOAuth2 {
 
 		// Http 요청하기 - Post 방식으로 - 그리고 Response 변수의 응답받음
 		ResponseEntity<String> response = rt.exchange(
-			"https://kauth.kakao.com/oauth/token",
+			KAKAO_LOGIN_URL,
 			HttpMethod.POST,
 			kakaoTokenRequest,
 			String.class
@@ -63,7 +64,7 @@ public class KaKaoOAuth2 {
 		return accessToken;
 	}
 
-	private KakaoToken getUserInfoByToken(String accessToken) {
+	public KakaoToken getUserInfoByToken(String accessToken) {
 		// HttpHeader 오브젝트 생성
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Authorization", "Bearer " + accessToken);

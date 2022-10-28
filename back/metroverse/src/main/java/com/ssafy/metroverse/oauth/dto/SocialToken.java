@@ -1,14 +1,16 @@
-package com.ssafy.metroverse.oauth.auth;
+package com.ssafy.metroverse.oauth.dto;
 
 import com.ssafy.metroverse.global.model.SocialType;
-import com.ssafy.metroverse.oauth.dto.SocialToken;
+import com.ssafy.metroverse.oauth.auth.GoogleOAuth2;
+import com.ssafy.metroverse.oauth.auth.KaKaoOAuth2;
+import com.ssafy.metroverse.oauth.auth.NaverOAuth2;
 
-public interface SocialOAuth2 {
-	String getAccessToken(String authorizedCode);
+public interface SocialToken {
+	Long getId();
 
-	SocialToken getUserInfo(String authorizedCode);
+	String getEmail();
 
-	SocialToken getUserInfoByToken(String accessToken);
+	String getNickname();
 
 	default SocialType type() {
 		if (this instanceof GoogleOAuth2)
