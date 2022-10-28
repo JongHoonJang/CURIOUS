@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class KakaoToken implements SocialToken {
+public class NaverToken implements SocialToken {
 	private Long id;
 	private String email;
 	private String nickname;
