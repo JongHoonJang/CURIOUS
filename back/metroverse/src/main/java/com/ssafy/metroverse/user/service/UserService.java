@@ -17,11 +17,6 @@ import lombok.RequiredArgsConstructor;
 @Service
 @Transactional
 public class UserService implements UserDetailsService {
-
-	// @Value("${oauth2.kakao.restApiKey}")
-	// private String kakao_restApiKey;
-	// @Value("${oauth2.kakao.redirectUri}")
-	// private String kakao_redirectUri;
 	private final UserRepository userRepository;
 
 	@Override

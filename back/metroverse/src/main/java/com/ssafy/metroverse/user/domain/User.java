@@ -32,7 +32,7 @@ public class User implements UserDetails {
 	private Integer id;
 	@Column(unique = true, nullable = false)
 	private String email;
-	@Column(unique = true, nullable = false)
+	@Column(unique = false, nullable = false)
 	private String nickname;
 	private String refreshToken;
 	@Enumerated(EnumType.STRING)
