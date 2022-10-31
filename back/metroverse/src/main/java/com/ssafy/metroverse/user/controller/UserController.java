@@ -21,10 +21,16 @@ import com.ssafy.metroverse.oauth.service.OAuthService;
 import com.ssafy.metroverse.user.JwtTokenProvider;
 import com.ssafy.metroverse.user.dto.TokenRequest;
 import com.ssafy.metroverse.user.dto.TokenResponse;
+import com.ssafy.metroverse.user.dto.UserLoginResponse;
 import com.ssafy.metroverse.user.service.UserService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 
+@Api(value = "User API", tags = {"User."})
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
@@ -37,6 +43,13 @@ public class UserController {
 	private final Response response;
 
 	@GetMapping("/{type}/callback")
+	@ApiOperation(value = "소셜 로그인", notes = "처음 가입한 사용자인지, 기존 사용자인지 구분하여 동작")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "성공", response = UserLoginResponse.class),
+		@ApiResponse(code = 401, message = "인증 실패", response = Response.class),
+		@ApiResponse(code = 404, message = "사용자 없음", response = Response.class),
+		@ApiResponse(code = 500, message = "서버 오류", response = Response.class)
+	})
 	public ResponseEntity<?> login(@RequestParam(value = "code") String code,
 		@PathVariable(value = "type") String socialType, HttpServletResponse res) {
 		// authorizedCode : 카카오 서버로부터 받은 인가 코드
@@ -55,6 +68,7 @@ public class UserController {
 	}
 
 	@GetMapping("/reissue")
+	@ApiOperation(value = "Reissue", notes = "access token 만료 시 access token, refresh token 재발행")
 	public ResponseEntity<?> reissue(@CookieValue(value = "refresh-token", required = false) Cookie cookie,
 		HttpServletResponse res) {
 		System.out.println("cookie = " + cookie);
@@ -77,6 +91,7 @@ public class UserController {
 	}
 
 	@GetMapping("/logout")
+	@ApiOperation(value = "로그아웃", notes = "쿠키 삭제")
 	public ResponseEntity<?> logout(@CookieValue(value = "refresh-token", required = false) Cookie cookie,
 		HttpServletResponse res) {
 		cookie.setMaxAge(0);
@@ -84,6 +99,7 @@ public class UserController {
 	}
 
 	@GetMapping("/mypage")
+	@ApiOperation(value = "마이페이지", notes = "회원 정보 조회")
 	public ResponseEntity<?> getUserInfo(@RequestHeader("Authorization") String bearerToken) {
 		return response.success(userService.getUserInfo(jwtTokenProvider.getUserId(bearerToken)));
 	}
