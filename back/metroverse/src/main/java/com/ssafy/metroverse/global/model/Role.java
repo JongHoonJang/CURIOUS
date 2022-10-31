@@ -1,5 +1,5 @@
 package com.ssafy.metroverse.global.model;
 
-public enum Gender {
-	MALE, FEMALE;
+public enum Role {
+	ROLE_USER, ROLE_ADMIN
 }
