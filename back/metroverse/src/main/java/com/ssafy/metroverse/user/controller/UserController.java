@@ -85,8 +85,6 @@ public class UserController {
 
 	@GetMapping("/mypage")
 	public ResponseEntity<?> getUserInfo(@RequestHeader("Authorization") String bearerToken) {
-		System.out.println(jwtTokenProvider.getUserId(bearerToken));
-
 		return response.success(userService.getUserInfo(jwtTokenProvider.getUserId(bearerToken)));
 	}
 }
