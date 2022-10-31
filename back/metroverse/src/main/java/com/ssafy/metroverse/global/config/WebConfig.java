@@ -14,8 +14,8 @@ public class WebConfig implements WebMvcConfigurer {
 				"https://k7b107.p.ssafy.io")//, "https://helloworld.ssafy.io")
 			.allowedMethods("GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS")
 			.allowedHeaders("Authorization", "Content-Type", "accept", "access-control-allow-origin")
-			.exposedHeaders("Authorization")
-			.allowCredentials(true)
+			.exposedHeaders("Authorization") // JWT 로그인을 위해 클라이언트에서 Authorization 헤더에 접근 가능하도록
+			.allowCredentials(true) // 클라이언트에서 쿠키를 받기 위해
 			.maxAge(86400L);
 	}
 }
