@@ -6,6 +6,8 @@ import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -29,6 +31,7 @@ public class JwtTokenProvider {
 	private final long tokenValidTime = 30 * 60 * 1000L; // access 토큰 유효시간 30분
 	private final long refreshTokenVaildTime = 7 * 24 * 60 * 60 * 1000L; // refresh 토큰 유효시간 7일
 	private final UserService userService;
+	private final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
 
 	// 객체 초기화, secretKey를 Base64로 인코딩
 	@PostConstruct
@@ -53,7 +56,7 @@ public class JwtTokenProvider {
 			.compact();
 	}
 
-	public String createRefreshToken(){
+	public String createRefreshToken() {
 		Date now = new Date();
 		return Jwts.builder()
 			.setIssuedAt(now)
@@ -78,9 +81,10 @@ public class JwtTokenProvider {
 	 * @return 회원 정보
 	 */
 	public String getUserId(String token) {
-		try{
+		try {
+			logger.info(Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject());
 			return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
-		} catch (ExpiredJwtException e){
+		} catch (ExpiredJwtException e) {
 			return e.getClaims().getSubject();
 		}
 

@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -30,6 +31,16 @@ public class SecurityConfig {
 		return authenticationConfiguration.getAuthenticationManager();
 	}
 
+	public void configure(WebSecurity web) throws Exception {
+		web.ignoring()
+			.antMatchers("/",
+				"/swagger-ui/**",
+				"/swagger-resources/**",
+				"/v2/api-docs/**",
+				"/webjars/**",
+				"/favicon.com");
+	}
+
 	// 패스워드 인코더
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -42,6 +53,8 @@ public class SecurityConfig {
 		// 일반적인 루트가 아닌 다른 방식으로 요청 시 거절
 		// header에 id, pw가 아닌 token(jwt)를 달고 감. 그래서 basic이 아닌 bearer를 사용
 		http.httpBasic().disable() // rest api이므로 csrf 보안 미사용
+			.cors()
+			.and()
 			.authorizeRequests() // 요청에 대한 사용권한 체크
 			.antMatchers("/**", "/swagger-ui.html", "/swagger/**", "/swagger-resources/**", "/webjars/**",
 				"/v3/api-docs").permitAll()
