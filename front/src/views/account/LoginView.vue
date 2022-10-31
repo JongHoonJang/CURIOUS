@@ -3,79 +3,95 @@
     <div id="naver_id_login" @click="naver_login">
       <img src="https://static.nid.naver.com/oauth/big_g.PNG?version=js-2.0.1">
     </div>
-    <img @click="kakao_login" src="@/assets/kakao_login_large_narrow.png" alt="">
-    <img @click="google_login" src="@/assets/btn_google_signin_light_normal_web.png" alt="">
-    <div id="my-signin2" style="display: none"></div>
+    <div id="kakao_id_login" @click="account.kakaoLogin">
+      <img src="@/assets/kakao_login_large_narrow.png" alt="">
+    </div>
+    <div @click="google_login">
+      <img src="@/assets/btn_google_signin_light_normal_web.png" alt="">
+    </div>
+    <a :href="`${google}`" >
+      <img src="@/assets/btn_google_signin_light_normal_web.png" alt="">
+    </a>
   </header>
 </template>
 
 <script>
+import { useAccountStore } from "@/stores/accounts";
+// import router from '@/router';
 export default {
   setup(){
+    const google = process.env.VUE_APP_GOOGLE_LOGIN
+    const account = useAccountStore()
     const naver_login = () => {
-      var naver_id_login = new window.naver_id_login(process.env.VUE_APP_NAVER_CLIENTID,process.env.VUE_APP_NAVER_URL);
+      var naver_id_login = new window.naver_id_login(process.env.VUE_APP_NAVER_CLIENTID, process.env.VUE_APP_NAVER_URL);
       var state = naver_id_login.getUniqState();
       naver_id_login.setButton("green", 3, 46);
-      naver_id_login.setDomain("http:localhost:8080/login");
       naver_id_login.setState(state);
       naver_id_login.setPopup();
       naver_id_login.init_naver_id_login();
-    }
-    const kakao_login = () => {
-      window.Kakao.Auth.login({
-        scope: 'profile_nickname, account_email',
-        success: getKakaoAccount
-      })
-    }
-    const getKakaoAccount = () => {
-      window.Kakao.API.request({
-        url: process.env.VUE_APP_KAKAO_URL,
-        success: res => {
-          const kakao_account = res.kakao_account;
-          const nickname = kakao_account.nickname;
-          const email = kakao_account.email;
-          console.log(nickname);
-          console.log(email);
-          alert("로그인 성공!");
-        },
-        fail : error => {
-          console.log(error)
-        }
-      })
+
     }
     const google_login = () => {
-      var self = this;
+      var xmlHttp = new XMLHttpRequest()
 
-      window.gapi.signin2.render('my-signin2', {
-        scope: 'profile email',
-        width: 240,
-        height: 50,
-        longtitle: true,
-        theme: 'dark',
-        onsuccess:  function GoogleLoginSuccess (googleUser) {
-                    const googleEmail =  googleUser.getBasicProfile().getEmail();
-                    if (googleEmail !== 'undefined') {
-                      console.log(googleEmail);
-                    }
-                  },
-        onfailure:  function GoogleLoginFailure(error){
-                      console.log(error);
-                    },
-      });
-
-      setTimeout(function () {
-        if (!self.googleLoginCheck) {
-          const auth = window.gapi.auth2.getAuthInstance();
-          auth.isSignedIn.get();
-          document.querySelector('.abcRioButton').click();
+      xmlHttp.onreadystatechange = function () {
+        if (this.status == 200 && this.readyState == this.DONE) {
+          console.log(xmlHttp)
         }
-      }, 1500)
+      }
+
+      xmlHttp.open('GET', process.env.VUE_APP_GOOGLE_LOGIN, true)
+
+      xmlHttp.send()
     }
+
+
+    // const google_login = () => {
+    //   window.gapi.signin2.render('my-signin2', {
+    //     scope: 'profile email',
+    //     width: 240,
+    //     height: 50,
+    //     longtitle: true,
+    //     theme: 'dark',
+    //     onsuccess: onSuccess,
+    //     onfailure: onFailure,
+    //   });
+    //   // setTimeout(function () {
+    //   //   document.querySelector('.abcRioButton').click();
+    //   // }, 1500)
+    // }
+    // const onSuccess = async(googleUser) => {
+
+    //   const user_join_type = "g"
+    //   const googleEmail = googleUser.getBasicProfile().pu
+    //   console.log(googleEmail)
+
+    //   const res = await fetch(process.env.VUE_APP_GOOGLE_URL, {
+    //     method: "get",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({
+    //       email: `${googleEmail}`,
+    //       user_join_type: user_join_type
+    //     }),
+    //   })
+    //   console.log(await res.data)
+    //   const data = await res.json();
+    //   console.log(data)
+    //   this.checkSnSLogin(data, googleEmail,user_join_type);
+    // }
+    // //구글 로그인 콜백함수 (실패)
+    // const onFailure = (error) => {
+    //   // eslint-disable-next-line
+    //   console.log(error);
+    // }
     return {
       naver_login,
-      kakao_login,
       google_login,
-
+      // googleLogin,
+      account,
+      google,
     }
   }
 }
