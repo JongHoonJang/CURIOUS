@@ -6,14 +6,14 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.metroverse.global.model.Role;
 import com.ssafy.metroverse.global.model.SocialType;
-import com.ssafy.metroverse.oauth.auth.KaKaoOAuth2;
 import com.ssafy.metroverse.oauth.auth.SocialOAuth2;
 import com.ssafy.metroverse.oauth.dto.SocialToken;
 import com.ssafy.metroverse.user.JwtTokenProvider;
@@ -30,9 +30,8 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 public class OAuthService {
 
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	private final JwtTokenProvider jwtTokenProvider;
-	private final PasswordEncoder passwordEncoder;
-	private final KaKaoOAuth2 kaKaoOAuth2;
 	private final UserRepository userRepository;
 	private final List<SocialOAuth2> socialOAuth2List;
 
@@ -54,6 +53,7 @@ public class OAuthService {
 			.refreshToken(jwtTokenProvider.createRefreshToken())
 			.role(Role.ROLE_USER)
 			.build());
+		logger.info("회원가입 완료!!");
 	}
 
 	public TokenResponse reissue(TokenRequest tokenRequest) {
