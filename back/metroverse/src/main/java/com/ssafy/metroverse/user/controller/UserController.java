@@ -3,11 +3,14 @@ package com.ssafy.metroverse.user.controller;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,6 +30,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserController {
 
+	private final Logger logger = LoggerFactory.getLogger(UserController.class);
 	private final JwtTokenProvider jwtTokenProvider;
 	private final UserService userService;
 	private final OAuthService oAuthService;
@@ -70,5 +74,17 @@ public class UserController {
 		res.setHeader("Set-Cookie", newCookie.toString());
 
 		return response.success(tokenResponse);
+	}
+
+	@GetMapping("/logout")
+	public ResponseEntity<?> logout(@CookieValue(value = "refresh-token", required = false) Cookie cookie,
+		HttpServletResponse res) {
+		cookie.setMaxAge(0);
+		return response.success();
+	}
+
+	@GetMapping("/mypage")
+	public ResponseEntity<?> getUserInfo(@RequestHeader("Authorization") String bearerToken) {
+		return response.success(userService.getUserInfo(jwtTokenProvider.getUserId(bearerToken)));
 	}
 }
