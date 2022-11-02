@@ -5,7 +5,6 @@ import api from '@/api/api'
 export const useAccountStore = defineStore("accounts", {
   state: () => ({
     accesstoken: localStorage.getItem('token') || '' ,
-    refreshtoken: localStorage.getItem('refresh') || '',
     profile: {},
   }),
   getters: {
@@ -27,6 +26,9 @@ export const useAccountStore = defineStore("accounts", {
       axios.get(api.accounts.login(type),{
         params:{
           code:code
+        },
+        headers:{
+          'Access-Control-Allow-Origin': '*'
         }
       })
       .then(res => {
@@ -35,13 +37,22 @@ export const useAccountStore = defineStore("accounts", {
         router.push({name:'MainView'})
       })
     },
+    logout() {
+      axios.get(api.accounts.logout(),{
+        headers: this.accesstoken
+      })
+      .then(() => {
+        this.removeToken
+        alert("로그아웃되었습니다.")
+        router.push({name:'RandingView'})
+      })
+    },
     fetchProfile() {
       axios.get(api.accounts.profile(),{
         headers: this.authHeader
       })
       .then(res => {
-        console.log(res.data)
-        this.profile = res.data
+        this.profile = res.data.data
       })
     }
   }
