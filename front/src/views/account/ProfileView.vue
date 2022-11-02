@@ -9,10 +9,10 @@
       <div class="profile-box">
         <div class="name-box">
           <div class="text-box">
-            <span class="text-size">이름 : {{account.profile}}</span>
+            <span class="text-size">이름 : </span>
           </div>
           <div class="text-box">
-            <span class="text-size">SSAFY</span>
+            <span class="text-size">{{account.profile.nickname}}</span>
           </div>
         </div>
         <div class="name-box">
@@ -20,7 +20,7 @@
             <span class="text-size">닉네임 : </span>
           </div>
           <div class="text-box">
-            <span class="text-size">SSAFY</span>
+            <span class="text-size">{{account.profile.nickname}}</span>
           </div>
         </div>
         <p class="text-size">얻은 트로피</p>

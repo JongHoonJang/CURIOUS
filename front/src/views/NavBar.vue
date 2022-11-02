@@ -25,7 +25,7 @@ export default {
     };
 
     const logout = () => {
-
+      account.value.logout()
     };
 
     return {
