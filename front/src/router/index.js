@@ -14,17 +14,17 @@ const routes = [
     component: RandingView
   },
   {
-    path: '/api/users/naver/callback',
+    path: '/users/naver/callback',
     name: 'NaverLogin',
     component: NaverLogin
   },
   {
-    path: '/api/users/kakao/callback',
+    path: '/users/kakao/callback',
     name: 'KakaoLogin',
     component: KakaoLogin
   },
   {
-    path: '/api/users/google/callback',
+    path: '/users/google/callback',
     name: 'GoogleLogin',
     component: GoogleLogin
   },
