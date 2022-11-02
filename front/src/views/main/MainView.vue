@@ -6,7 +6,7 @@
     <div class="All">
       <div class="Title">
         <h1 class="TitleText">지하철 사고</h1>
-        <img class="Image" src="@/assets/mainpage/train.png" alt="train" />
+        <img @click="account.fetchProfile()" class="Image" src="@/assets/mainpage/train.png" alt="train" />
       </div>
       <div class="Detail">
         <div class="DetailBox">
@@ -22,7 +22,16 @@
 </template>
 
 <script>
-export default {};
+import { useAccountStore } from "@/stores/accounts";
+export default {
+  setup(){
+    const account = useAccountStore();
+    // account.fetchProfile()
+    return {
+      account
+    }
+  }
+}
 </script>
 
 <style>
