@@ -82,8 +82,9 @@ public class JwtTokenProvider {
 	 */
 	public String getUserId(String token) {
 		try {
-			logger.info(Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject());
-			return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+			logger.info(token);
+			// logger.info(Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject());
+			return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token.substring(7)).getBody().getSubject();
 		} catch (ExpiredJwtException e) {
 			return e.getClaims().getSubject();
 		}
