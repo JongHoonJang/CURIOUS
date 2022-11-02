@@ -39,11 +39,18 @@
 </template>
 
 <script>
-import router from "@/router";
+import { useAccountStore } from "@/stores/accounts";
+import router from "@/router"
+import { ref } from 'vue'
 export default {
   setup() {
+    const account = ref(useAccountStore());
     const start = () => {
-      router.push({ name: "MainView" });
+      if(account.value.isLoggedIn){
+        router.push({ name: "MainView" });
+      }else {
+        router.push({name: "LoginView"})
+      }
     };
 
     return {
