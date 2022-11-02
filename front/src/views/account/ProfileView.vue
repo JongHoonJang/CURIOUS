@@ -9,7 +9,7 @@
       <div class="profile-box">
         <div class="name-box">
           <div class="text-box">
-            <span class="text-size">이름 : </span>
+            <span class="text-size">이름 : {{account.profile}}</span>
           </div>
           <div class="text-box">
             <span class="text-size">SSAFY</span>
@@ -48,8 +48,15 @@
 </template>
 
 <script>
+import { useAccountStore } from "@/stores/accounts";
 export default {
-
+  setup(){
+    const account = useAccountStore();
+    account.fetchProfile()
+    return {
+      account
+    }
+  }
 }
 </script>
 
