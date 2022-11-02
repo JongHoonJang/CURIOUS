@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import axios from 'axios'
-import router from "@/router"
+// import router from "@/router"
 import api from '@/api/api'
 export const useAccountStore = defineStore("accounts", {
   state: () => ({
@@ -32,8 +32,16 @@ export const useAccountStore = defineStore("accounts", {
       .then(res => {
         console.log(res.data.data)
         this.saveToken(res.data.data.accessToken)
-        router.push({name:"MainView"})
       })
     },
+    fetchProfile() {
+      axios.get(api.accounts.profile(),{
+        headers: this.authHeader
+      })
+      .then(res => {
+        console.log(res.data)
+        this.profile = res.data
+      })
+    }
   }
 })
