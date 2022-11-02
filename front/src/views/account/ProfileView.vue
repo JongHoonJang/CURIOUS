@@ -64,6 +64,7 @@ export default {
 .profile-container {
   display: flex;
   justify-content: space-evenly;
+  margin-top: 100px;
 
 }
 .profileimg-box {
