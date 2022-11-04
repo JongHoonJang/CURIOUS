@@ -19,7 +19,6 @@ import router from "@/router"
 export default {
   setup() {
     const account = ref(useAccountStore()); // 로그인 기능 구현되면 연결하기
-    console.log(account.value.isLoggedIn)
     const login = () => {
       router.push({name: "LoginView"})
     };
