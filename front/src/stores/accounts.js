@@ -39,10 +39,9 @@ export const useAccountStore = defineStore("accounts", {
     },
     logout() {
       axios.get(api.accounts.logout(),{
-        headers: this.accesstoken
       })
       .then(() => {
-        this.removeToken
+        this.removeToken()
         alert("로그아웃되었습니다.")
         router.push({name:'RandingView'})
       })
@@ -53,6 +52,9 @@ export const useAccountStore = defineStore("accounts", {
       })
       .then(res => {
         this.profile = res.data.data
+      })
+      .catch(error => {
+        console.log(error)
       })
     }
   }

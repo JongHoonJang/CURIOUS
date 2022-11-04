@@ -64,11 +64,11 @@ router.beforeEach((to, from, next) => {
     }
   }
   //토큰이 없을때 로그인 페이지로 이동
-  else if (to.name === 'MainView' || to.name === 'ProfileView' || to.name === 'MetaverseView') {
-    if(!token) {
-      next({ name:'LoginView'})
-    }
-  }
+  // else if (to.name === 'MainView' || to.name === 'ProfileView' || to.name === 'MetaverseView') {
+  //   if(!token) {
+  //     next({ name:'LoginView'})
+  //   }
+  // }
   next()
 })
 

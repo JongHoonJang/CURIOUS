@@ -10,4 +10,4 @@ axios.defaults.headers.common['Content-Type'] = 'application/x-www-form-urlencod
 axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 
 
-createApp(App).use(createPinia()).use(VueCookies, { secure: true }).use(router, AOS.init(),axios).mount("#app");
+createApp(App).use(createPinia()).use(VueCookies, { secure: true }).use(router, AOS.init(), axios).mount("#app");
