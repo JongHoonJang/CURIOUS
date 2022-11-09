@@ -1,29 +1,35 @@
 <template>
   <header class="profile-container">
-    <div class="profileimg-box">
+    <!-- <div class="profileimg-box">
       <div class="img-box">
         <img src="@/assets/기본프로필.jpg" alt="">
       </div>
-    </div>
+    </div> -->
     <div class="profile-card">
       <div class="profile-box">
-        <div class="name-box">
-          <div class="text-box">
-            <span class="text-size">이름 : </span>
+        <div class="img-box">
+          <img src="@/assets/기본프로필.jpg" alt="">
+        </div>
+        <div>
+          <div class="name-box">
+            <div class="text-box">
+              <span class="text-size">이름 : </span>
+            </div>
+            <div class="text-box">
+              <span class="text-size">{{account.profile.nickname}}</span>
+            </div>
           </div>
-          <div class="text-box">
-            <span class="text-size">{{account.profile.nickname}}</span>
+          <div class="name-box">
+            <div class="text-box">
+              <span class="text-size">email : </span>
+            </div>
+            <div class="text-box">
+              <span class="text-size">{{account.profile.email}}</span>
+            </div>
           </div>
         </div>
-        <div class="name-box">
-          <div class="text-box">
-            <span class="text-size">닉네임 : </span>
-          </div>
-          <div class="text-box">
-            <span class="text-size">{{account.profile.nickname}}</span>
-          </div>
-        </div>
-        <p class="text-size">얻은 트로피</p>
+        <img class="logo" src="@/assets/curius_logos/curius_logo_2.png" alt="">
+        <!-- <p class="text-size">얻은 트로피</p>
         <div class="medal-list">
           <div class="medal-box">
             <div class="medel"><img src="@/assets/medel1.png" alt=""></div>
@@ -41,7 +47,7 @@
             <div class="medel"></div>
             <p>달성조건 1</p>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </header>
@@ -52,12 +58,12 @@ import { useAccountStore } from "@/stores/accounts";
 export default {
   setup(){
     const account = useAccountStore();
-    account.fetchProfile()
+    account.fetchProfile();
     return {
       account
-    }
+    };
   }
-}
+};
 </script>
 
 <style>
@@ -94,11 +100,12 @@ export default {
   height: 338px;
   text-align: start;
   display: flex;
+  justify-content: space-between;
   flex-flow: column;
 }
 .img-box {
-  width: 330px;
-  height: 334px;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.53);
   box-shadow: 10px 15px 4px rgba(0, 0, 0, 0.25);
@@ -139,5 +146,11 @@ export default {
 
 .text-box{
   width: 350px;
+}
+
+.logo {
+  width: 280px;
+  height: 135px;
+  margin: auto;
 }
 </style>

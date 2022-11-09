@@ -5,7 +5,10 @@
         <img class="nav-bar-logo-img" src="@/assets/curius_logos/curius_logo_1.png" alt="" />
       </div>
       <div class="nav-bar-login">
-        <p v-if="account.isLoggedIn" @click="logout()">로그아웃</p>
+        <div class="nav-laft">
+          <p v-if="account.isLoggedIn" @click="profile()">마이페이지</p>
+          <p v-if="account.isLoggedIn" @click="logout()">로그아웃</p>
+        </div>
         <p v-if="!account.isLoggedIn" @click="login()">로그인</p>
       </div>
     </header>
@@ -18,20 +21,21 @@ import { useAccountStore } from "@/stores/accounts";
 import router from "@/router"
 export default {
   setup() {
-    const account = ref(useAccountStore()); // 로그인 기능 구현되면 연결하기
+    const account = ref(useAccountStore());
     const login = () => {
       router.push({name: "LoginView"})
     };
-
     const logout = () => {
       account.value.logout()
     };
-
+    const profile = () => {
+      router.push({name: "ProfileView"})
+    };
     return {
-
       account,
       login,
       logout,
+      profile
     };
   },
 };
@@ -57,5 +61,12 @@ export default {
 .nav-bar-logo-img {
   height: 5vh;
   margin-left: 7vw;
+}
+.nav-laft{
+  display: flex;
+}
+
+.nav-laft p {
+  margin: 5px;
 }
 </style>
