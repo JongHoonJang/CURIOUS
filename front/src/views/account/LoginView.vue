@@ -15,16 +15,16 @@
 <script>
 export default {
   setup(){
-    const naver = process.env.VUE_APP_NAVER_LOGIN
-    const kakao = process.env.VUE_APP_KAKAO_LOGIN
-    const google = process.env.VUE_APP_GOOGLE_LOGIN
+    const naver = process.env.VUE_APP_NAVER_LOGIN;
+    const kakao = process.env.VUE_APP_KAKAO_LOGIN;
+    const google = process.env.VUE_APP_GOOGLE_LOGIN;
     return {
       naver,
       kakao,
       google
     }
   }
-}
+};
 </script>
 
 <style>
