@@ -17,13 +17,13 @@ onMounted(() => {
   if (!unityComponent) {
     unityComponent = new UnityWebgl(canvasRef.value, {
       loaderUrl:
-        'Build/unity_webgl.loader.js',
+        'Build/curious.loader.js',
       dataUrl:
-        'Build/unity_webgl.data.unityweb',
+        'Build/curious.data.unityweb',
       frameworkUrl:
-        'Build/unity_webgl.framework.js.unityweb',
+        'Build/curious.framework.js.unityweb',
       codeUrl:
-        'Build/unity_webgl.wasm.unityweb',
+        'Build/curious.wasm.unityweb',
     });
   }
 });
