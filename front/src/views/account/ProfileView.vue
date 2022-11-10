@@ -1,14 +1,14 @@
 <template>
   <header class="profile-container">
-    <!-- <div class="profileimg-box">
-      <div class="img-box">
-        <img src="@/assets/기본프로필.jpg" alt="">
-      </div>
-    </div> -->
     <div class="profile-card">
       <div class="profile-box">
-        <div class="img-box">
-          <img src="@/assets/기본프로필.jpg" alt="">
+        <div class="title">
+          <div class="img-box">
+            <img src="@/assets/기본프로필.jpg" alt="">
+          </div>
+          <div class="text-box">
+            <span class="title-size">안전 교육 이수증</span>
+          </div>
         </div>
         <div>
           <div class="name-box">
@@ -28,26 +28,10 @@
             </div>
           </div>
         </div>
-        <img class="logo" src="@/assets/curius_logos/curius_logo_2.png" alt="">
-        <!-- <p class="text-size">얻은 트로피</p>
-        <div class="medal-list">
-          <div class="medal-box">
-            <div class="medel"><img src="@/assets/medel1.png" alt=""></div>
-            <p>달성조건 1</p>
-          </div>
-          <div class="medal-box">
-            <div class="medel"><img src="@/assets/medel1.png" alt=""></div>
-            <p>달성조건 1</p>
-          </div>
-          <div class="medal-box">
-            <div class="medel"></div>
-            <p>달성조건 1</p>
-          </div>
-          <div class="medal-box">
-            <div class="medel"></div>
-            <p>달성조건 1</p>
-          </div>
-        </div> -->
+        <div class="footer-box">
+          <img class="logo" src="@/assets/curius_logos/curius_logo_2.png" alt="">
+          <img class="model" src="@/assets/medel1.png" alt="">
+        </div>
       </div>
     </div>
   </header>
@@ -97,7 +81,7 @@ export default {
 
 .profile-box {
   width: 700px;
-  height: 338px;
+  height: 400px;
   text-align: start;
   display: flex;
   justify-content: space-between;
@@ -118,24 +102,17 @@ export default {
   width: 200px;
   height: 200px;
 }
-.medel{
-  width: 150px;
-  height: 150px;
+.model{
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
-  background: #EDEDED;
+  /* background: #94C893; */
   box-shadow: 10px 15px 4px rgba(0, 0, 0, 0.25);
+  margin: auto;
 }
-.medel img {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-}
-.medal-list {
-  text-align: center;
+.footer-box{
   display: flex;
-  justify-content: space-between;
 }
-
 .name-box {
   display: flex;
   margin: 15px 0px;
@@ -143,7 +120,10 @@ export default {
 .text-size {
   font-size: 28px;
 }
-
+.title-size {
+  font-size: 36px;
+  font-style: bold;
+}
 .text-box{
   width: 350px;
 }
@@ -152,5 +132,9 @@ export default {
   width: 280px;
   height: 135px;
   margin: auto;
+}
+.title {
+  display: flex;
+  justify-content: space-between;
 }
 </style>

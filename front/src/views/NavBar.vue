@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header class="nav-bar">
+    <nav class="nav-bar">
       <div class="nav-bar-logo">
         <img class="nav-bar-logo-img" src="@/assets/curius_logos/curius_logo_1.png" alt="" />
       </div>
@@ -11,7 +11,7 @@
         </div>
         <p v-if="!account.isLoggedIn" @click="login()">로그인</p>
       </div>
-    </header>
+    </nav>
   </div>
 </template>
 
