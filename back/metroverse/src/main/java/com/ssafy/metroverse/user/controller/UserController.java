@@ -64,7 +64,7 @@ public class UserController {
 			.build();
 
 		res.setHeader("Set-Cookie", cookie.toString());
-		return response.success(tokenResponse);
+		return response.success(tokenResponse.getAccessToken());
 	}
 
 	@GetMapping("/reissue")
@@ -87,7 +87,7 @@ public class UserController {
 
 		res.setHeader("Set-Cookie", newCookie.toString());
 
-		return response.success(tokenResponse);
+		return response.success(tokenResponse.getAccessToken());
 	}
 
 	@GetMapping("/logout")
@@ -95,6 +95,7 @@ public class UserController {
 	public ResponseEntity<?> logout(@CookieValue(value = "refresh-token", required = false) Cookie cookie,
 		HttpServletResponse res) {
 		cookie.setMaxAge(0);
+		res.setHeader("Set-Cookie", cookie.toString());
 		return response.success();
 	}
 
