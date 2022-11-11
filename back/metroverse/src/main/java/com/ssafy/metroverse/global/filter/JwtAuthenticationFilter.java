@@ -15,8 +15,6 @@ import org.springframework.web.filter.GenericFilterBean;
 
 import com.ssafy.metroverse.user.JwtTokenProvider;
 
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.SignatureException;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -37,13 +35,14 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 				SecurityContextHolder.getContext().setAuthentication(authentication);
 			} catch (IllegalArgumentException e) {
 				logger.error("an error occured during getting usesrname from token", e);
-			} catch (ExpiredJwtException e) { // 유효 기간이 지난 JWT를 수신한 경우
-				logger.warn("the token is expired and not valid anymore", e);
-				((HttpServletResponse)response).sendError(401, "ExpiredJwtException error");
-			} catch (SignatureException e) { // 서명 오류
-				logger.error("Authentication Failed. Username or Password not valid.");
-				((HttpServletResponse)response).sendError(401, "SignatureException error");
 			}
+			// catch (ExpiredJwtException e) { // 유효 기간이 지난 JWT를 수신한 경우
+			// 	logger.warn("the token is expired and not valid anymore", e);
+			// 	((HttpServletResponse)response).sendError(401, "ExpiredJwtException error");
+			// } catch (SignatureException e) { // 서명 오류
+			// 	logger.error("Authentication Failed. Username or Password not valid.");
+			// 	((HttpServletResponse)response).sendError(401, "SignatureException error");
+			// }
 		} else {
 			logger.warn("couldn't find bearer string, will ignore the header");
 			((HttpServletResponse)response).sendError(401, "access token 만료");
