@@ -43,9 +43,10 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 			// 	logger.error("Authentication Failed. Username or Password not valid.");
 			// 	((HttpServletResponse)response).sendError(401, "SignatureException error");
 			// }
-		} else {
+		}
+		else {
 			logger.warn("couldn't find bearer string, will ignore the header");
-			((HttpServletResponse)response).sendError(401, "access token 만료");
+//			((HttpServletResponse)response).sendError(401, "access token 만료");
 		}
 		chain.doFilter(request, response);
 	}

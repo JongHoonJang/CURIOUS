@@ -35,7 +35,7 @@ public class SecurityConfig {
 
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring()
-			.antMatchers("/",
+			.antMatchers(
 				"/swagger-ui/**",
 				"/swagger-resources/**",
 				"/v2/api-docs/**",
@@ -58,7 +58,7 @@ public class SecurityConfig {
 			.cors()
 			.and()
 			.authorizeRequests() // 요청에 대한 사용권한 체크
-			.antMatchers("/**", "/swagger-ui.html", "/swagger/**", "/swagger-resources/**", "/webjars/**",
+			.antMatchers("/", "/users/KAKAO/callback/**", "/api/users/reissue/**", "/swagger-ui.html", "/swagger/**", "/swagger-resources/**", "/webjars/**",
 				"/v3/api-docs").permitAll()
 			.anyRequest().authenticated()
 			.and()
