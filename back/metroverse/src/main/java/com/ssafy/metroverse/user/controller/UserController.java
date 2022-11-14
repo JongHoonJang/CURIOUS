@@ -73,9 +73,10 @@ public class UserController {
 	@ApiOperation(value = "Reissue", notes = "access token 만료 시 access token, refresh token 재발행")
 	public ResponseEntity<?> reissue(@CookieValue(value = "refresh-token", required = false) Cookie cookie,
 		HttpServletResponse res) {
-		System.out.println("cookie = " + cookie);
+		System.out.println("cookie = " + cookie.getValue());
 
-		TokenResponse tokenResponse = oAuthService.reissue(new TokenRequest("", cookie.getValue()));
+		TokenResponse tokenResponse = oAuthService.reissue(
+			new TokenRequest("Bearer " + cookie.getValue(), cookie.getValue()));
 		// JWToken jwt = authService.reissue(cookie.getValue());
 		// System.out.println("jwt = " + jwt.getAccessToken());
 		ResponseCookie newCookie = ResponseCookie.from("refresh-token", tokenResponse.getRefreshToken())
@@ -89,7 +90,7 @@ public class UserController {
 
 		res.setHeader("Set-Cookie", newCookie.toString());
 
-		return response.success(tokenResponse.getAccessToken());
+		return response.success(tokenResponse.getAccessToken(), "reissue 성공", HttpStatus.OK);
 	}
 
 	@GetMapping("/logout")

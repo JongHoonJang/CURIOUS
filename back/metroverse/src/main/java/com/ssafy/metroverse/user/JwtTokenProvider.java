@@ -56,9 +56,12 @@ public class JwtTokenProvider {
 			.compact();
 	}
 
-	public String createRefreshToken() {
+	public String createRefreshToken(String email) {
+		Claims claims = Jwts.claims().setSubject(email);
+		System.out.println("Create : " + email);
 		Date now = new Date();
 		return Jwts.builder()
+			.setClaims(claims)
 			.setIssuedAt(now)
 			.setExpiration(new Date(now.getTime() + refreshTokenVaildTime))
 			.signWith(SignatureAlgorithm.HS256, secretKey)
@@ -71,6 +74,8 @@ public class JwtTokenProvider {
 	 * @return 인증 정보
 	 */
 	public Authentication getAuthentication(String token) {
+		System.out.println("????????????????");
+		System.out.println(this.getUserId(token));
 		UserDetails userDetails = userService.loadUserByUsername(this.getUserId(token));
 		return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
 	}

@@ -4,8 +4,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,10 +33,11 @@ public class SecurityConfig {
 		return authenticationConfiguration.getAuthenticationManager();
 	}
 
-	public void configure(WebSecurity web) throws Exception {
-		web.ignoring()
+	@Bean
+	public WebSecurityCustomizer webSecurityCustomizer() {
+		return (web) -> web.ignoring()
 			.antMatchers(
-				"/swagger-ui/**",
+				"/swagger-ui.html",
 				"/swagger-resources/**",
 				"/v2/api-docs/**",
 				"/webjars/**",
@@ -59,7 +60,7 @@ public class SecurityConfig {
 			.and()
 			.authorizeRequests() // 요청에 대한 사용권한 체크
 			.antMatchers("/", "/users/KAKAO/callback/**", "/users/NAVER/callback/**", "/users/GOOGLE/callback/**",
-				"/api/users/reissue").permitAll()
+				"/users/reissue").permitAll()
 			.anyRequest().authenticated()
 			.and()
 			// 인증에 관한 예외처리
