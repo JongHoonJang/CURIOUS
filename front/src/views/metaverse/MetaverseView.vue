@@ -42,24 +42,4 @@ onBeforeUnmount(() => {
   margin-top: 50px;
 }
 
-.red-btn {
-  width: 92px;
-  height: 36px;
-  margin-left: 16px;
-  background: radial-gradient(95% 60% at 50% 75%, #d60000 0%, #ff2020 100%);
-  border: 1px solid #fd5454;
-  box-shadow: 0px 8px 20px -8px #ff1111, inset 0px 1px 8px -4px #FFFFFF;
-  border-radius: 12px;
-  color: white;
-  font-size: 16px;
-  line-height: 22px;
-  font-weight: 600;
-  letter-spacing: .02em;
-  transition: all .2s ease;
-  -webkit-tap-highlight-color: rgba(255,255,255,0);
-}
-
-.red-btn:hover {
-  transform: scale(1.2);
-}
 </style>
