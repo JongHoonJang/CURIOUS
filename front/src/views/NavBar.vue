@@ -44,6 +44,12 @@ export default {
 </script>
 
 <style scoped>
+@font-face {
+    font-family: 'BMJUA_ttf';
+    src: url(../assets/BMJUA_ttf.ttf);
+    font-weight: normal;
+    font-style: normal;
+}
 .nav-bar {
   position: fixed;
   top: 0;
@@ -55,6 +61,7 @@ export default {
 }
 
 .nav-bar-login {
+  font-family: "BMJUA_ttf";
   border-style: none;
   background: none;
   margin-right: 5vw;

@@ -61,6 +61,12 @@ export default {
 </script>
 
 <style scoped>
+@font-face {
+    font-family: 'BMJUA_ttf';
+    src: url(../../assets/BMJUA_ttf.ttf);
+    font-weight: normal;
+    font-style: normal;
+}
 section {
   height: 100vh;
   width: 100vw;
@@ -79,7 +85,7 @@ section {
 }
 
 .text {
-  font-family: "BM HANNA_TTF";
+  font-family: "BMJUA_ttf";
   font-style: normal;
   font-weight: 400;
   font-size: 4rem;
@@ -92,6 +98,7 @@ section {
 .first-img {
   margin-top: 5vh;
   height: 90vh;
+  width: 90vw;
 }
 
 .second-img {
@@ -118,7 +125,7 @@ section {
 .button {
   width: 140px;
   height: 45px;
-  font-family: "Roboto", sans-serif;
+  font-family: "BMJUA_ttf";
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 2.5px;
