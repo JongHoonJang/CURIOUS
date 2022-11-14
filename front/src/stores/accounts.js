@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import axios from 'axios';
 import router from "@/router";
 import api from '@/api/api';
-
+import Swal from 'sweetalert2/src/sweetalert2.js'
 export const useAccountStore = defineStore("accounts", {
   state: () => ({
     accesstoken: localStorage.getItem('token') || '' ,
@@ -33,7 +33,11 @@ export const useAccountStore = defineStore("accounts", {
         }
       })
       .then(res => {
-        console.log(res.data.data);
+        Swal.fire({
+          title: 'CURI@US',
+          text: '로그인 되었습니다.',
+          icon: 'success',
+        })
         this.saveToken(res.data.data);
         router.push({name:'MainView'});
       })
@@ -47,7 +51,11 @@ export const useAccountStore = defineStore("accounts", {
       })
       .then(() => {
         this.removeToken();
-        alert("로그아웃되었습니다.");
+        Swal.fire({
+          title: 'CURI@US',
+          text: '로그아웃 되었습니다.',
+          icon: 'success', 
+        })
         router.push({name:'RandingView'});
       })
     },
@@ -61,7 +69,17 @@ export const useAccountStore = defineStore("accounts", {
       .catch(error => {
         console.log(error.response);
         if (error.response.status==401){
-          this.tokenReissue()
+          axios.get(api.accounts.reissue(),{
+            withCredentials: true,
+            headers: this.authHeader,
+          })
+          .then(res => {
+            this.saveToken(res.data.data)
+            this.fetchProfile()
+          })
+          .catch(() => {
+            this.logout()
+          })
         }
       })
     },
@@ -72,10 +90,11 @@ export const useAccountStore = defineStore("accounts", {
       })
       .then(res => {
         this.saveToken(res.data.data)
-        alert("재발급!")
+      })
+      .catch(() => {
+        this.logout()
       })
     }
-    
-
+  
   }
 });
