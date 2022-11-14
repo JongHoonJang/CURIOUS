@@ -51,6 +51,12 @@ export default {
 </script>
 
 <style>
+@font-face {
+    font-family: 'BMJUA_ttf';
+    src: url(../../assets/BMJUA_ttf.ttf);
+    font-weight: normal;
+    font-style: normal;
+}
 .profile-container {
   display: flex;
   justify-content: space-evenly;
@@ -119,10 +125,12 @@ export default {
 }
 .text-size {
   font-size: 28px;
+  font-family: 'BMJUA_ttf';
 }
 .title-size {
   font-size: 36px;
   font-style: bold;
+  font-family: 'BMJUA_ttf';
 }
 .text-box{
   width: 350px;
