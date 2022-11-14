@@ -2,7 +2,7 @@
   <div>
     <nav class="nav-bar">
       <div class="nav-bar-logo">
-        <img class="nav-bar-logo-img" src="@/assets/curius_logos/curius_logo_1.png" alt="" />
+        <img @click="main()" class="nav-bar-logo-img" src="@/assets/curius_logos/curius_logo_1.png" alt="" />
       </div>
       <div class="nav-bar-login">
         <div class="nav-laft">
@@ -18,16 +18,35 @@
 <script>
 import { ref } from "vue";
 import { useAccountStore } from "@/stores/accounts";
-import router from "@/router"
+import router from "@/router";
+import Swal from "sweetalert2/src/sweetalert2.js";
 export default {
   setup() {
     const account = ref(useAccountStore());
+    const main = () => {
+      if(account.value.isLoggedIn){
+        router.push({name:"MainView"})
+      }else{
+        router.push({name:"RandingView"})
+      }
+    };
     const login = () => {
       router.push({name: "LoginView"})
     };
     const logout = () => {
-      
-      account.value.logout()
+      Swal.fire({
+        title: 'CURI@US',
+        text: "로그아웃 하시겠습니까?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          account.value.logout()
+        }
+      })
     };
     const profile = () => {
       router.push({name: "ProfileView"})
@@ -37,7 +56,7 @@ export default {
       login,
       logout,
       profile,
-      
+      main
     };
   },
 };
@@ -77,5 +96,8 @@ export default {
 
 .nav-laft p {
   margin: 5px;
+}
+.nav-laft p:hover {
+  color: gold;
 }
 </style>
