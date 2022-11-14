@@ -58,14 +58,13 @@ public class SecurityConfig {
 			.cors()
 			.and()
 			.authorizeRequests() // 요청에 대한 사용권한 체크
-			.antMatchers("/", "/users/KAKAO/callback/**", "/api/users/reissue/**", "/swagger-ui.html", "/swagger/**", "/swagger-resources/**", "/webjars/**",
-				"/v3/api-docs").permitAll()
+			.antMatchers("/", "/users/KAKAO/callback/**", "/users/NAVER/callback/**", "/users/GOOGLE/callback/**",
+				"/api/users/reissue").permitAll()
 			.anyRequest().authenticated()
 			.and()
 			// 인증에 관한 예외처리
 			.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
 			.and()
-			// .exceptionHandling().authenticationEntryPoint(new CustomAuthenti)
 			// JwtAuthenticationFilter를 UsernamePasswordAuthenticationFilter 전에 넣는다
 			.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
 				UsernamePasswordAuthenticationFilter.class);
