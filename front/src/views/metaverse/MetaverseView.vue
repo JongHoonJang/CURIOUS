@@ -4,7 +4,6 @@
       <canvas id="canvas" ref="canvasRef" style="width: 100%; height: 100%" />
     </div>
   </div>
-  <button class="red-btn" @click="close()">나가기</button>
 </template>
 
 <script setup>
@@ -13,11 +12,7 @@ import UnityWebgl from 'unity-webgl';
 
 const canvasRef = ref(null);
 let unityComponent = null;
-const close = () => {
-  // self.opener = self;
-  // window.close();
-  window.open('','_self').close(); 
-}
+
 onMounted(() => {
   if (!unityComponent) {
     unityComponent = new UnityWebgl(canvasRef.value, {
