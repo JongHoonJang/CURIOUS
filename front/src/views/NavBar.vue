@@ -26,6 +26,7 @@ export default {
       router.push({name: "LoginView"})
     };
     const logout = () => {
+      
       account.value.logout()
     };
     const profile = () => {
@@ -35,7 +36,8 @@ export default {
       account,
       login,
       logout,
-      profile
+      profile,
+      
     };
   },
 };
