@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -64,16 +65,18 @@ public class UserController {
 			.build();
 
 		res.setHeader("Set-Cookie", cookie.toString());
-		return response.success(tokenResponse.getAccessToken());
+		logger.info(tokenResponse.getAccessToken());
+		return response.success(tokenResponse.getAccessToken(), "로그인 성공", HttpStatus.OK);
 	}
 
 	@GetMapping("/reissue")
 	@ApiOperation(value = "Reissue", notes = "access token 만료 시 access token, refresh token 재발행")
 	public ResponseEntity<?> reissue(@CookieValue(value = "refresh-token", required = false) Cookie cookie,
 		HttpServletResponse res) {
-		System.out.println("cookie = " + cookie);
+		System.out.println("cookie = " + cookie.getValue());
 
-		TokenResponse tokenResponse = oAuthService.reissue(new TokenRequest("", cookie.getValue()));
+		TokenResponse tokenResponse = oAuthService.reissue(
+			new TokenRequest("Bearer " + cookie.getValue(), cookie.getValue()));
 		// JWToken jwt = authService.reissue(cookie.getValue());
 		// System.out.println("jwt = " + jwt.getAccessToken());
 		ResponseCookie newCookie = ResponseCookie.from("refresh-token", tokenResponse.getRefreshToken())
@@ -87,7 +90,7 @@ public class UserController {
 
 		res.setHeader("Set-Cookie", newCookie.toString());
 
-		return response.success(tokenResponse.getAccessToken());
+		return response.success(tokenResponse.getAccessToken(), "reissue 성공", HttpStatus.OK);
 	}
 
 	@GetMapping("/logout")

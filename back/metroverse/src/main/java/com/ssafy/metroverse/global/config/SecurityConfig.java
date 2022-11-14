@@ -4,8 +4,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,10 +33,11 @@ public class SecurityConfig {
 		return authenticationConfiguration.getAuthenticationManager();
 	}
 
-	public void configure(WebSecurity web) throws Exception {
-		web.ignoring()
-			.antMatchers("/",
-				"/swagger-ui/**",
+	@Bean
+	public WebSecurityCustomizer webSecurityCustomizer() {
+		return (web) -> web.ignoring()
+			.antMatchers(
+				"/swagger-ui.html",
 				"/swagger-resources/**",
 				"/v2/api-docs/**",
 				"/webjars/**",
@@ -58,14 +59,13 @@ public class SecurityConfig {
 			.cors()
 			.and()
 			.authorizeRequests() // 요청에 대한 사용권한 체크
-			.antMatchers("/**", "/swagger-ui.html", "/swagger/**", "/swagger-resources/**", "/webjars/**",
-				"/v3/api-docs").permitAll()
+			.antMatchers("/", "/users/KAKAO/callback/**", "/users/NAVER/callback/**", "/users/GOOGLE/callback/**",
+				"/users/reissue").permitAll()
 			.anyRequest().authenticated()
 			.and()
 			// 인증에 관한 예외처리
 			.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
 			.and()
-			// .exceptionHandling().authenticationEntryPoint(new CustomAuthenti)
 			// JwtAuthenticationFilter를 UsernamePasswordAuthenticationFilter 전에 넣는다
 			.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
 				UsernamePasswordAuthenticationFilter.class);
