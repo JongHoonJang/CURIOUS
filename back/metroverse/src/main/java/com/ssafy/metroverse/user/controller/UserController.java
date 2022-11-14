@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -106,6 +107,14 @@ public class UserController {
 	@GetMapping("/mypage")
 	@ApiOperation(value = "마이페이지", notes = "회원 정보 조회")
 	public ResponseEntity<?> getUserInfo(@RequestHeader("Authorization") String bearerToken) {
+		System.out.println(jwtTokenProvider.getUserId(bearerToken));
 		return response.success(userService.getUserInfo(jwtTokenProvider.getUserId(bearerToken)));
+	}
+
+	@DeleteMapping("/delete")
+	@ApiOperation(value = "회원탈퇴", notes = "회원 탈퇴")
+	public ResponseEntity<?> deleteUser(@RequestHeader("Authorization") String bearerToken) {
+		oAuthService.deleteUser(userService.getUserInfo(jwtTokenProvider.getUserId(bearerToken)).getEmail());
+		return response.success("회원 탈퇴 성공");
 	}
 }

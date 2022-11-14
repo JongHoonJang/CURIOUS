@@ -115,4 +115,8 @@ public class OAuthService {
 	public void logout(String refreshToken) {
 		userRepository.deleteRefreshToken(refreshToken);
 	}
+
+	public void deleteUser(String email) {
+		userRepository.deleteUserByEmail(email);
+	}
 }
