@@ -97,6 +97,7 @@ public class UserController {
 	@ApiOperation(value = "로그아웃", notes = "쿠키 삭제")
 	public ResponseEntity<?> logout(@CookieValue(value = "refresh-token", required = false) Cookie cookie,
 		HttpServletResponse res) {
+		oAuthService.logout(cookie.getValue());
 		cookie.setMaxAge(0);
 		res.setHeader("Set-Cookie", cookie.toString());
 		return response.success();

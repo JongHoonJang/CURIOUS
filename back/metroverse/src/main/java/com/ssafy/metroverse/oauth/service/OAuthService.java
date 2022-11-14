@@ -111,4 +111,8 @@ public class OAuthService {
 		return socialOAuth2List.stream().filter(auth -> auth.type() == socialType)
 			.findFirst().orElseThrow(() -> new IllegalArgumentException("잘못된 소셜 로그인입니다."));
 	}
+
+	public void logout(String refreshToken) {
+		userRepository.deleteRefreshToken(refreshToken);
+	}
 }
