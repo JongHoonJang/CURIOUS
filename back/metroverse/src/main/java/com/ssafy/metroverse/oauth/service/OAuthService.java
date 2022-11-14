@@ -42,6 +42,7 @@ public class OAuthService {
 	public TokenResponse login(String email) {
 		User user = userRepository.findByEmail(email)
 			.orElseThrow(() -> new IllegalArgumentException(NOT_FOUND_USER_ERROR_MESSAGE));
+		user.updateRefreshToken(jwtTokenProvider.createRefreshToken(email));
 		return new TokenResponse(jwtTokenProvider.createToken(email), user.getRefreshToken());
 	}
 
@@ -50,25 +51,30 @@ public class OAuthService {
 		User user = userRepository.save(User.builder()
 			.email(userJoinRequest.getEmail())
 			.nickname(userJoinRequest.getNickname())
-			.refreshToken(jwtTokenProvider.createRefreshToken())
+			.refreshToken(jwtTokenProvider.createRefreshToken(userJoinRequest.getEmail()))
 			.role(Role.ROLE_USER)
 			.build());
 		logger.info("회원가입 완료!!");
 	}
 
 	public TokenResponse reissue(TokenRequest tokenRequest) {
+
 		// 만료 기간 지났는지 확인
 		if (!jwtTokenProvider.validateToken(tokenRequest.getRefreshToken()))
 			throw new IllegalArgumentException(INVALID_REFRESH_TOKEN_ERROR_MESSAGE);
 
+		System.out.println("==========before==============================");
 		User user = findUserByToken(tokenRequest);
+		logger.info(user.getEmail());
+		System.out.println("========================================");
 
-		if (!user.getRefreshToken().equals(tokenRequest.getRefreshToken()))
-			throw new IllegalArgumentException(INVALID_REFRESH_TOKEN_ERROR_MESSAGE);
+		// if (!user.getRefreshToken().equals(tokenRequest.getRefreshToken()))
+		// 	throw new IllegalArgumentException(INVALID_REFRESH_TOKEN_ERROR_MESSAGE);
 
 		String accessToken = jwtTokenProvider.createToken(user.getEmail());
-		String refreshToken = jwtTokenProvider.createRefreshToken();
+		String refreshToken = jwtTokenProvider.createRefreshToken(user.getEmail());
 		user.updateRefreshToken(refreshToken);
+		logger.info(accessToken);
 		return new TokenResponse(accessToken, refreshToken);
 	}
 
@@ -76,6 +82,7 @@ public class OAuthService {
 		Authentication auth = jwtTokenProvider.getAuthentication(tokenRequest.getAccessToken());
 		UserDetails userDetails = (UserDetails)auth.getPrincipal();
 		String username = userDetails.getUsername();
+		logger.info(username);
 		return userRepository.findByEmail(username)
 			.orElseThrow(() -> new IllegalArgumentException(NOT_FOUND_EMAIL_ERROR_MESSAGE));
 	}
