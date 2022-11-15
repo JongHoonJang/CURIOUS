@@ -60,7 +60,7 @@ public class SecurityConfig {
 			.and()
 			.authorizeRequests() // 요청에 대한 사용권한 체크
 			.antMatchers("/", "/users/KAKAO/callback/**", "/users/NAVER/callback/**", "/users/GOOGLE/callback/**",
-				"/users/reissue").permitAll()
+				"/users/reissue", "/users/logout").permitAll()
 			.anyRequest().authenticated()
 			.and()
 			// 인증에 관한 예외처리

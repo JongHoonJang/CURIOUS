@@ -9,4 +9,5 @@ public class GoogleToken implements SocialToken {
 	private Long id;
 	private String email;
 	private String nickname;
+	private String imageSrc;
 }

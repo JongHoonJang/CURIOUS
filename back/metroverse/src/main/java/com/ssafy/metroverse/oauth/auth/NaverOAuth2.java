@@ -97,6 +97,7 @@ public class NaverOAuth2 implements SocialOAuth2 {
 
 		return new NaverToken(0L,
 			body.getJSONObject("response").getString("email"),
-			body.getJSONObject("response").getString("name"));
+			body.getJSONObject("response").getString("name"),
+			body.getJSONObject("response").getString("profile_image"));
 	}
 }

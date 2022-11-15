@@ -53,6 +53,7 @@ public class OAuthService {
 			.nickname(userJoinRequest.getNickname())
 			.refreshToken(jwtTokenProvider.createRefreshToken(userJoinRequest.getEmail()))
 			.role(Role.ROLE_USER)
+			.imageSrc(userJoinRequest.getImageSrc())
 			.build());
 		logger.info("회원가입 완료!!");
 	}
@@ -94,12 +95,13 @@ public class OAuthService {
 
 		String email = userInfo.getEmail();
 		String username = userInfo.getNickname();
+		String imageSrc = userInfo.getImageSrc();
 
 		// DB에 중복된 이메일 있는지 확인
 		if (!isExistEmail(email)) {
 			// 카카오 정보로 회원가입
 
-			UserJoinRequest userJoinRequest = new UserJoinRequest(email, username);
+			UserJoinRequest userJoinRequest = new UserJoinRequest(email, username, imageSrc);
 			join(userJoinRequest);
 		}
 
@@ -110,5 +112,13 @@ public class OAuthService {
 	private SocialOAuth2 findSocialOauthByType(SocialType socialType) {
 		return socialOAuth2List.stream().filter(auth -> auth.type() == socialType)
 			.findFirst().orElseThrow(() -> new IllegalArgumentException("잘못된 소셜 로그인입니다."));
+	}
+
+	public void logout(String refreshToken) {
+		userRepository.deleteRefreshToken(refreshToken);
+	}
+
+	public void deleteUser(String email) {
+		userRepository.deleteUserByEmail(email);
 	}
 }
