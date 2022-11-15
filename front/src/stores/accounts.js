@@ -76,7 +76,12 @@ export const useAccountStore = defineStore("accounts", {
               this.fetchProfile()
             })
             .catch(() => {
-              this.logout()
+              Swal.fire({
+                title: 'CURI@US',
+                text: '인증에 실패하였습니다..',
+                icon: 'error', 
+              })
+              this.removeToken()
             })
         }
       })
@@ -95,7 +100,6 @@ export const useAccountStore = defineStore("accounts", {
     },
     userDelete() {
       axios.delete(api.accounts.delete(),{
-        withCredentials: true,
         headers: this.authHeader,
       })
       .then(() => {
@@ -105,6 +109,7 @@ export const useAccountStore = defineStore("accounts", {
           icon: 'success', 
         })
         this.removeToken()
+        router.push({name:"RandingView"})
       })
       .catch(error => {
         if (error.response.status==401){
@@ -116,7 +121,12 @@ export const useAccountStore = defineStore("accounts", {
               this.userDelete()
             })
             .catch(() => {
-              this.logout()
+              Swal.fire({
+                title: 'CURI@US',
+                text: '인증에 실패하였습니다..',
+                icon: 'error', 
+              })
+              this.removeToken()
             })
         }
       })
