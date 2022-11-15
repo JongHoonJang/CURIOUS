@@ -14,6 +14,8 @@
           <form class="InputArea">
             <input type="text" class="Input" placeholder="코드를 입력하세요." />
             <button class="Join">입장하기</button>
+            <!-- <button class="Join" @click="onClickRedirect()>입장하기</button> -->
+            
           </form>
         </div>
       </div>
@@ -24,17 +26,30 @@
 <script>
 import { useAccountStore } from "@/stores/accounts";
 export default {
+  methods: {
+    onClickRedirect: function () {   
+          window.open(process.env.VUE_APP_API_URL + "");    
+      }
+  },
   setup(){
     const account = useAccountStore();
     // account.fetchProfile()
+
     return {
       account
     }
   }
+
 }
 </script>
 
 <style>
+@font-face {
+    font-family: 'BMJUA_ttf';
+    src: url(../../assets/BMJUA_ttf.ttf);
+    font-weight: normal;
+    font-style: normal;
+}
 html {
   height: 100vh;
   width: 100vw;
@@ -72,6 +87,8 @@ body{
   text-align: start;
   width: 41.5vw;
   margin-left: 3vw;
+  font-family: "BMJUA_ttf";
+  overflow: hidden;
 }
 .Detail {
   width: 50vw;
@@ -99,9 +116,10 @@ body{
   box-shadow: 10px 15px 4px rgba(0, 0, 0, 0.25);
   border-radius: 30px;
   top: 10vh;
-  font-family: "BM HANNA_TTF";
+  font-family: "BMJUA_ttf";
   font-style: normal;
   font-size: 3rem;
+  overflow: hidden;
 }
 .Input {
   width: 35vw;
@@ -111,23 +129,25 @@ body{
   border-radius: 30px;
   position: relative;
   text-align: center;
-  font-family: "BM HANNA_TTF";
+  font-family: "BMJUA_ttf";
   font-style: normal;
   font-size: 3rem;
   display: flex;
   align-items: center;
   text-align: center;
   margin-bottom: 2vh;
+  overflow: hidden;
 }
 .Join {
   width: 14vw;
   height: 8vh;
   border-style: none;
   border-radius: 30px;
-  font-family: "BM HANNA_TTF";
+  font-family: "BMJUA_ttf";
   font-style: normal;
   box-shadow: 10px 15px 4px rgba(0, 0, 0, 0.25);
-  font-size: 2em;
+  font-size: 1.5em;
+  overflow: hidden;
 }
 .InputArea {
   position: absolute;
