@@ -61,7 +61,7 @@ export default {
         confirmButtonText: 'Yes'
       }).then((result) => {
         if (result.isConfirmed) {
-          account.userDelete()
+          account.userDelete();
         }
       })
     }
