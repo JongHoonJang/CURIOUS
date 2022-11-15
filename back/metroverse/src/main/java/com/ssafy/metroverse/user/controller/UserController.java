@@ -5,9 +5,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -64,16 +66,18 @@ public class UserController {
 			.build();
 
 		res.setHeader("Set-Cookie", cookie.toString());
-		return response.success(tokenResponse);
+		logger.info(tokenResponse.getAccessToken());
+		return response.success(tokenResponse.getAccessToken(), "로그인 성공", HttpStatus.OK);
 	}
 
 	@GetMapping("/reissue")
 	@ApiOperation(value = "Reissue", notes = "access token 만료 시 access token, refresh token 재발행")
 	public ResponseEntity<?> reissue(@CookieValue(value = "refresh-token", required = false) Cookie cookie,
 		HttpServletResponse res) {
-		System.out.println("cookie = " + cookie);
+		System.out.println("cookie = " + cookie.getValue());
 
-		TokenResponse tokenResponse = oAuthService.reissue(new TokenRequest("", cookie.getValue()));
+		TokenResponse tokenResponse = oAuthService.reissue(
+			new TokenRequest("Bearer " + cookie.getValue(), cookie.getValue()));
 		// JWToken jwt = authService.reissue(cookie.getValue());
 		// System.out.println("jwt = " + jwt.getAccessToken());
 		ResponseCookie newCookie = ResponseCookie.from("refresh-token", tokenResponse.getRefreshToken())
@@ -87,20 +91,30 @@ public class UserController {
 
 		res.setHeader("Set-Cookie", newCookie.toString());
 
-		return response.success(tokenResponse);
+		return response.success(tokenResponse.getAccessToken(), "reissue 성공", HttpStatus.OK);
 	}
 
 	@GetMapping("/logout")
 	@ApiOperation(value = "로그아웃", notes = "쿠키 삭제")
 	public ResponseEntity<?> logout(@CookieValue(value = "refresh-token", required = false) Cookie cookie,
 		HttpServletResponse res) {
+		oAuthService.logout(cookie.getValue());
 		cookie.setMaxAge(0);
+		res.setHeader("Set-Cookie", cookie.toString());
 		return response.success();
 	}
 
 	@GetMapping("/mypage")
 	@ApiOperation(value = "마이페이지", notes = "회원 정보 조회")
 	public ResponseEntity<?> getUserInfo(@RequestHeader("Authorization") String bearerToken) {
+		System.out.println(jwtTokenProvider.getUserId(bearerToken));
 		return response.success(userService.getUserInfo(jwtTokenProvider.getUserId(bearerToken)));
+	}
+
+	@DeleteMapping("/delete")
+	@ApiOperation(value = "회원탈퇴", notes = "회원 탈퇴")
+	public ResponseEntity<?> deleteUser(@RequestHeader("Authorization") String bearerToken) {
+		oAuthService.deleteUser(userService.getUserInfo(jwtTokenProvider.getUserId(bearerToken)).getEmail());
+		return response.success("회원 탈퇴 성공");
 	}
 }

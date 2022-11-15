@@ -87,6 +87,7 @@ public class KaKaoOAuth2 implements SocialOAuth2 {
 		System.out.println(body);
 
 		return new KakaoToken(body.getLong("id"), body.getJSONObject("kakao_account").getString("email"),
-			body.getJSONObject("properties").getString("nickname"));
+			body.getJSONObject("properties").getString("nickname"),
+			body.getJSONObject("properties").getString("profile_image"));
 	}
 }

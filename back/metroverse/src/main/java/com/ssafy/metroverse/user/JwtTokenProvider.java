@@ -56,9 +56,12 @@ public class JwtTokenProvider {
 			.compact();
 	}
 
-	public String createRefreshToken() {
+	public String createRefreshToken(String email) {
+		Claims claims = Jwts.claims().setSubject(email);
+		System.out.println("Create : " + email);
 		Date now = new Date();
 		return Jwts.builder()
+			.setClaims(claims)
 			.setIssuedAt(now)
 			.setExpiration(new Date(now.getTime() + refreshTokenVaildTime))
 			.signWith(SignatureAlgorithm.HS256, secretKey)
@@ -71,6 +74,8 @@ public class JwtTokenProvider {
 	 * @return 인증 정보
 	 */
 	public Authentication getAuthentication(String token) {
+		System.out.println("????????????????");
+		System.out.println(this.getUserId(token));
 		UserDetails userDetails = userService.loadUserByUsername(this.getUserId(token));
 		return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
 	}
@@ -80,7 +85,7 @@ public class JwtTokenProvider {
 	 * @param token JWT 토큰
 	 * @return 회원 정보
 	 */
-	public String getUserId(String token) {
+	public String getUserId(String token) throws ExpiredJwtException {
 		try {
 			logger.info(token);
 			// logger.info(Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject());
@@ -107,7 +112,7 @@ public class JwtTokenProvider {
 	 */
 	public boolean validateToken(String jwtToken) {
 		try {
-			Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
+			Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken.substring(7));
 			return !claims.getBody().getExpiration().before(new Date());
 		} catch (Exception e) {
 			return false;
