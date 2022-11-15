@@ -96,6 +96,7 @@ public class GoogleOAuth2 implements SocialOAuth2 {
 
 		return new GoogleToken(0L,
 			body.getString("email"),
-			body.getString("name"));
+			body.getString("name"),
+			body.getString("picture"));
 	}
 }
