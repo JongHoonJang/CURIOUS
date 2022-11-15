@@ -6,30 +6,47 @@
     >
       <!-- 1번 메인 페이지, 애니메이션 예정 -->
       <section class="first">
-        <img class="first-img" src="@/assets/landing/dump_main.png" alt="" />
+        <RandingSlide class="first-img" />
       </section>
       <!-- 2번 메인 페이지 -->
       <section class="second">
-        <img data-aos="fade-down-right" class="second-img" src="@/assets/landing/landingSub1.png" alt="" />
-        <div class="text" data-aos="zoom-in">
-          메타버스
+        <div class="second-one-img text" data-aos="fade-up">
+          <img src="@/assets/landing/landingSubwayFire.png" alt="" />
           <br />
-          안전 교육
+          지하철 화재상황
+        </div>
+        <div class="second-two-img text" data-aos="fade-down">
+          <img src="@/assets/landing/landingExit.png" alt="" />
+          <br />
+          제한시간은 5분!
         </div>
       </section>
       <!-- 3번 메인 페이지 -->
       <section class="third">
-        <img data-aos="fade-down-left" class="third-img" src="@/assets/landing/landingSub2.png" alt="" />
-        <div class="text" data-aos="zoom-in">
-          퀴즈로
+        <div class="third-one-img" data-aos="fade-up-right">
+          <img src="@/assets/landing/landingTrainFire.png" alt="" />
+        </div>
+        <div class="third-two-img text" data-aos="zoom-in-up">
+          <img src="@/assets/landing/landingStudy.png" alt="" />
           <br />
-          학습과 체크
+          화재 안전 교육도 함께
+        </div>
+        <div class="third-one-img text" data-aos="fade-up-left">
+          <img src="@/assets/landing/landingFireExtinguisher.png" alt="" />
         </div>
       </section>
       <!-- 4번 메인 페이지, 시작하기 -->
       <section class="fourth">
-        <img data-aos="zoom-in" class="fourth-img" src="@/assets/landing/landingSub3.png" alt="" />
-        <div class="text fourth-text" data-aos="zoom-in">멋진 추억</div>
+        <div class="fourth-two-img text" data-aos="fade-down-right">
+          <img src="@/assets/landing/landingSaffy.png" alt="" />
+          <br />
+          CURI@US
+        </div>
+        <div class="fourth-one-img text" data-aos="fade-down-left">
+          <img src="@/assets/landing/landingStart.png" alt="" />
+          <br />
+          시작하기
+        </div>
       </section>
       <div class="wrap">
         <button class="button" @click="start()">시작하기</button>
@@ -40,16 +57,19 @@
 
 <script>
 import { useAccountStore } from "@/stores/accounts";
-import router from "@/router"
-import { ref } from 'vue'
+import router from "@/router";
+import { ref } from "vue";
+import RandingSlide from "@/views/randing/RandingSlide.vue";
+
 export default {
+  components: { RandingSlide },
   setup() {
     const account = ref(useAccountStore());
     const start = () => {
-      if(account.value.isLoggedIn){
+      if (account.value.isLoggedIn) {
         router.push({ name: "MainView" });
-      }else {
-        router.push({name: "LoginView"})
+      } else {
+        router.push({ name: "LoginView" });
       }
     };
 
@@ -62,33 +82,74 @@ export default {
 
 <style scoped>
 @font-face {
-    font-family: 'BMJUA_ttf';
-    src: url(../../assets/BMJUA_ttf.ttf);
-    font-weight: normal;
-    font-style: normal;
+  font-family: "BMJUA_ttf";
+  src: url(../../assets/BMJUA_ttf.ttf);
+  font-weight: normal;
+  font-style: normal;
+}
+
+img {
+  height: 25vh;
 }
 section {
   height: 100vh;
   width: 100vw;
-  /* border-top: 2px dashed rgba(0, 0, 0, 0.5); */
   display: flex;
-  align-items: center;
-  justify-content: space-around;
+  flex-direction: column;
+}
+
+section.first {
+  justify-items: center;
+}
+
+section.second {
+  align-items: stretch;
+}
+
+.second-one-img {
+  margin-left: 10vw;
+  align-self: flex-start;
+}
+
+.second-two-img {
+  margin-right: 10vw;
+  align-self: flex-end;
+}
+
+.third-one-img {
+  margin-left: 15vw;
+  align-self: flex-start;
+}
+
+.third-two-img {
+  margin-right: 15vw;
+  align-self: flex-end;
+}
+
+.fourth-one-img {
+  margin-left: 15vw;
+  align-self: flex-start;
+}
+
+.fourth-two-img {
+  margin-right: 15vw;
+  align-self: flex-end;
 }
 
 .third {
-  flex-direction: row-reverse;
+  align-items: stretch;
 }
 
 .fourth {
-  justify-content: space-evenly;
+  align-items: stretch;
 }
 
 .text {
   font-family: "BMJUA_ttf";
   font-style: normal;
   font-weight: 400;
-  font-size: 4rem;
+  font-size: 3rem;
+  text-align: center;
 }
 
 .fourth-text {
@@ -96,13 +157,14 @@ section {
 }
 
 .first-img {
-  margin-top: 5vh;
-  height: 90vh;
-  width: 90vw;
+  align-self: center;
+  margin-top: 15vh;
+  height: 100vh;
+  width: 100vw;
 }
 
 .second-img {
-  margin-top: 10vh;
+  margin-top: 20vh;
   height: 60vh;
 }
 
@@ -123,10 +185,10 @@ section {
 }
 
 .button {
-  width: 140px;
-  height: 45px;
+  width: 180px;
+  height: 60px;
   font-family: "BMJUA_ttf";
-  font-size: 11px;
+  font-size: 20px;
   text-transform: uppercase;
   letter-spacing: 2.5px;
   font-weight: 500;
@@ -138,6 +200,7 @@ section {
   transition: all 0.3s ease 0s;
   cursor: pointer;
   outline: none;
+  margin-bottom: 10vh;
 }
 
 .button:hover {
