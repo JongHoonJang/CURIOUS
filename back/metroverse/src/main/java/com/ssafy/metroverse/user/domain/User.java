@@ -2,7 +2,14 @@ package com.ssafy.metroverse.user.domain;
 
 import java.util.Collection;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,6 +39,7 @@ public class User implements UserDetails {
 	private String refreshToken;
 	@Enumerated(EnumType.STRING)
 	private Role role;
+	private String imageSrc;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -66,6 +74,10 @@ public class User implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return true;
+	}
+
+	public void updateImageSrc(String imageSrc) {
+		this.imageSrc = imageSrc;
 	}
 
 	public void updateRefreshToken(String refreshToken) {
