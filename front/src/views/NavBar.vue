@@ -6,10 +6,10 @@
       </div>
       <div class="nav-bar-login">
         <div class="nav-laft">
-          <p v-if="account.isLoggedIn" @click="profile()">마이페이지</p>
-          <p v-if="account.isLoggedIn" @click="logout()">로그아웃</p>
+          <a href="/profile" v-if="account.isLoggedIn">마이페이지</a>
+          <a v-if="account.isLoggedIn" @click="logout()">로그아웃</a>
         </div>
-        <p v-if="!account.isLoggedIn" @click="login()">로그인</p>
+        <a v-if="!account.isLoggedIn" @click="login()">로그인</a>
       </div>
     </nav>
   </div>
@@ -48,14 +48,10 @@ export default {
         }
       })
     };
-    const profile = () => {
-      router.push({name: "ProfileView"})
-    };
     return {
       account,
       login,
       logout,
-      profile,
       main
     };
   },
@@ -94,10 +90,12 @@ export default {
   display: flex;
 }
 
-.nav-laft p {
+.nav-laft a {
   margin: 5px;
+  text-decoration: none;
+  color: black;
 }
-.nav-laft p:hover {
+.nav-laft a:hover {
   color: gold;
 }
 </style>
