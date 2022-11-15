@@ -61,8 +61,8 @@ public class OAuthService {
 	public TokenResponse reissue(TokenRequest tokenRequest) {
 
 		// 만료 기간 지났는지 확인
-		if (!jwtTokenProvider.validateToken(tokenRequest.getRefreshToken()))
-			throw new IllegalArgumentException(INVALID_REFRESH_TOKEN_ERROR_MESSAGE);
+		// if (!jwtTokenProvider.validateToken(tokenRequest.getRefreshToken()))
+		// throw new IllegalArgumentException(INVALID_REFRESH_TOKEN_ERROR_MESSAGE);
 
 		System.out.println("==========before==============================");
 		User user = findUserByToken(tokenRequest);
