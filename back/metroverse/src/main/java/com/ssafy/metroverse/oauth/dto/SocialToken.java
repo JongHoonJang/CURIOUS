@@ -12,6 +12,8 @@ public interface SocialToken {
 
 	String getNickname();
 
+	String getImageSrc();
+
 	default SocialType type() {
 		if (this instanceof GoogleOAuth2)
 			return SocialType.GOOGLE;

@@ -42,6 +42,7 @@ public class OAuthService {
 	public TokenResponse login(String email) {
 		User user = userRepository.findByEmail(email)
 			.orElseThrow(() -> new IllegalArgumentException(NOT_FOUND_USER_ERROR_MESSAGE));
+		user.updateRefreshToken(jwtTokenProvider.createRefreshToken(email));
 		return new TokenResponse(jwtTokenProvider.createToken(email), user.getRefreshToken());
 	}
 
@@ -50,25 +51,31 @@ public class OAuthService {
 		User user = userRepository.save(User.builder()
 			.email(userJoinRequest.getEmail())
 			.nickname(userJoinRequest.getNickname())
-			.refreshToken(jwtTokenProvider.createRefreshToken())
+			.refreshToken(jwtTokenProvider.createRefreshToken(userJoinRequest.getEmail()))
 			.role(Role.ROLE_USER)
+			.imageSrc(userJoinRequest.getImageSrc())
 			.build());
 		logger.info("회원가입 완료!!");
 	}
 
 	public TokenResponse reissue(TokenRequest tokenRequest) {
+
 		// 만료 기간 지났는지 확인
-		if (!jwtTokenProvider.validateToken(tokenRequest.getRefreshToken()))
-			throw new IllegalArgumentException(INVALID_REFRESH_TOKEN_ERROR_MESSAGE);
+		// if (!jwtTokenProvider.validateToken(tokenRequest.getRefreshToken()))
+		// throw new IllegalArgumentException(INVALID_REFRESH_TOKEN_ERROR_MESSAGE);
 
+		System.out.println("==========before==============================");
 		User user = findUserByToken(tokenRequest);
+		logger.info(user.getEmail());
+		System.out.println("========================================");
 
-		if (!user.getRefreshToken().equals(tokenRequest.getRefreshToken()))
-			throw new IllegalArgumentException(INVALID_REFRESH_TOKEN_ERROR_MESSAGE);
+		// if (!user.getRefreshToken().equals(tokenRequest.getRefreshToken()))
+		// 	throw new IllegalArgumentException(INVALID_REFRESH_TOKEN_ERROR_MESSAGE);
 
 		String accessToken = jwtTokenProvider.createToken(user.getEmail());
-		String refreshToken = jwtTokenProvider.createRefreshToken();
+		String refreshToken = jwtTokenProvider.createRefreshToken(user.getEmail());
 		user.updateRefreshToken(refreshToken);
+		logger.info(accessToken);
 		return new TokenResponse(accessToken, refreshToken);
 	}
 
@@ -76,6 +83,7 @@ public class OAuthService {
 		Authentication auth = jwtTokenProvider.getAuthentication(tokenRequest.getAccessToken());
 		UserDetails userDetails = (UserDetails)auth.getPrincipal();
 		String username = userDetails.getUsername();
+		logger.info(username);
 		return userRepository.findByEmail(username)
 			.orElseThrow(() -> new IllegalArgumentException(NOT_FOUND_EMAIL_ERROR_MESSAGE));
 	}
@@ -87,12 +95,13 @@ public class OAuthService {
 
 		String email = userInfo.getEmail();
 		String username = userInfo.getNickname();
+		String imageSrc = userInfo.getImageSrc();
 
 		// DB에 중복된 이메일 있는지 확인
 		if (!isExistEmail(email)) {
 			// 카카오 정보로 회원가입
 
-			UserJoinRequest userJoinRequest = new UserJoinRequest(email, username);
+			UserJoinRequest userJoinRequest = new UserJoinRequest(email, username, imageSrc);
 			join(userJoinRequest);
 		}
 
@@ -103,5 +112,13 @@ public class OAuthService {
 	private SocialOAuth2 findSocialOauthByType(SocialType socialType) {
 		return socialOAuth2List.stream().filter(auth -> auth.type() == socialType)
 			.findFirst().orElseThrow(() -> new IllegalArgumentException("잘못된 소셜 로그인입니다."));
+	}
+
+	public void logout(String refreshToken) {
+		userRepository.deleteRefreshToken(refreshToken);
+	}
+
+	public void deleteUser(String email) {
+		userRepository.deleteUserByEmail(email);
 	}
 }
