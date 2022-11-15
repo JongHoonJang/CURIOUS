@@ -67,19 +67,17 @@ export const useAccountStore = defineStore("accounts", {
         this.profile = res.data.data;
       })
       .catch(error => {
-        console.log(error.response);
         if (error.response.status==401){
           axios.get(api.accounts.reissue(),{
             withCredentials: true,
-            headers: this.authHeader,
           })
-          .then(res => {
-            this.saveToken(res.data.data)
-            this.fetchProfile()
-          })
-          .catch(() => {
-            this.logout()
-          })
+            .then(res => {
+              this.saveToken(res.data.data)
+              this.fetchProfile()
+            })
+            .catch(() => {
+              this.logout()
+            })
         }
       })
     },
@@ -93,6 +91,34 @@ export const useAccountStore = defineStore("accounts", {
       })
       .catch(() => {
         this.logout()
+      })
+    },
+    userDelete() {
+      axios.delete(api.accounts.delete(),{
+        withCredentials: true,
+        headers: this.authHeader,
+      })
+      .then(() => {
+        Swal.fire({
+          title: 'CURI@US',
+          text: '회원탈퇴 되었습니다.',
+          icon: 'success', 
+        })
+        this.removeToken()
+      })
+      .catch(error => {
+        if (error.response.status==401){
+          axios.get(api.accounts.reissue(),{
+            withCredentials: true,
+          })
+            .then(res => {
+              this.saveToken(res.data.data)
+              this.userDelete()
+            })
+            .catch(() => {
+              this.logout()
+            })
+        }
       })
     }
   

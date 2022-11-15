@@ -3,8 +3,11 @@
     <div class="profile-card">
       <div class="profile-box">
         <div class="title">
-          <div class="img-box">
+          <div v-if="!account.profile.imageSrc" class="img-box">
             <img src="@/assets/기본프로필.jpg" alt="">
+          </div>
+          <div v-if="account.profile.imageSrc" class="img-box">
+            <img :src="`${account.profile.imageSrc}`" alt="">
           </div>
           <div class="text-box">
             <span class="title-size">안전 교육 이수증</span>
@@ -32,6 +35,9 @@
           <img class="logo" src="@/assets/curius_logos/curius_logo_2.png" alt="">
           <img class="model" src="@/assets/medel1.png" alt="">
         </div>
+        <div class="delete">
+          <button class="delete_user" @click="deleteUser()">회원 탈퇴</button>
+        </div>
       </div>
     </div>
   </header>
@@ -39,12 +45,29 @@
 
 <script>
 import { useAccountStore } from "@/stores/accounts";
+import Swal from "sweetalert2/src/sweetalert2.js";
 export default {
   setup(){
     const account = useAccountStore();
     account.fetchProfile();
+    const deleteUser = () => {
+      Swal.fire({
+        title: 'CURI@US',
+        text: "회원탈퇴 하시겠습니까?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          account.userDelete()
+        }
+      })
+    }
     return {
-      account
+      account,
+      deleteUser
     };
   }
 };
@@ -87,7 +110,7 @@ export default {
 
 .profile-box {
   width: 700px;
-  height: 400px;
+  height: 440px;
   text-align: start;
   display: flex;
   justify-content: space-between;
@@ -144,5 +167,16 @@ export default {
 .title {
   display: flex;
   justify-content: space-between;
+}
+.delete{
+  display: flex;
+  justify-content: flex-end;
+}
+.delete_user{
+  text-align: center;
+  width: 80px;
+  border-radius: 5px;
+  background: red;
+  color: white;
 }
 </style>
