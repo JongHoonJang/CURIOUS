@@ -16,28 +16,28 @@
 </template>
 
 <script>
-import { ref } from "vue";
-import { useAccountStore } from "@/stores/accounts";
-import router from "@/router";
-import Swal from "sweetalert2/src/sweetalert2.js";
+import { ref } from 'vue';
+import { useAccountStore } from '@/stores/accounts';
+import router from '@/router';
+import Swal from 'sweetalert2';
 export default {
   setup() {
     const account = ref(useAccountStore());
     const main = () => {
-      if (account.value.isLoggedIn) {
-        router.push({ name: "MainView" });
-      } else {
-        router.push({ name: "RandingView" });
+      if(account.value.isLoggedIn){
+        router.push({name:'MainView'})
+      }else{
+        router.push({name:'RandingView'})
       }
     };
     const login = () => {
-      router.push({ name: "LoginView" });
+      router.push({name: 'LoginView'})
     };
     const logout = () => {
       Swal.fire({
-        title: "CURI@US",
-        text: "로그아웃 하시겠습니까?",
-        icon: "warning",
+        title: 'CURI@US',
+        text: '로그아웃 하시겠습니까?',
+        icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",

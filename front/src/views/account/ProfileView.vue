@@ -44,8 +44,8 @@
 </template>
 
 <script>
-import { useAccountStore } from "@/stores/accounts";
-import Swal from "sweetalert2/src/sweetalert2.js";
+import { useAccountStore } from '@/stores/accounts';
+import Swal from 'sweetalert2';
 export default {
   setup(){
     const account = useAccountStore();
@@ -53,7 +53,7 @@ export default {
     const deleteUser = () => {
       Swal.fire({
         title: 'CURI@US',
-        text: "회원탈퇴 하시겠습니까?",
+        text: '회원탈퇴 하시겠습니까?',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
