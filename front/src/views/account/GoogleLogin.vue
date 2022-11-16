@@ -11,7 +11,7 @@ export default {
   setup(){
     const account = useAccountStore();
     const route = ref(useRoute());
-    account.fetchLogin("GOOGLE",route.value.query.code);
+    account.fetchLogin('GOOGLE',route.value.query.code);
   }
 };
 </script>
