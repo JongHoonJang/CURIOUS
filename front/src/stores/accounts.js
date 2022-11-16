@@ -1,9 +1,9 @@
 import { defineStore } from "pinia";
 import axios from 'axios';
-import router from "@/router";
+import router from '@/router';
 import api from '@/api/api';
-import Swal from 'sweetalert2/src/sweetalert2.js'
-export const useAccountStore = defineStore("accounts", {
+import Swal from 'sweetalert2';
+export const useAccountStore = defineStore('accounts', {
   state: () => ({
     accesstoken: localStorage.getItem('token') || '' ,
     profile: {},
