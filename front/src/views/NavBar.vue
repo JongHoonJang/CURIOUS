@@ -24,35 +24,35 @@ export default {
   setup() {
     const account = ref(useAccountStore());
     const main = () => {
-      if(account.value.isLoggedIn){
-        router.push({name:"MainView"})
-      }else{
-        router.push({name:"RandingView"})
+      if (account.value.isLoggedIn) {
+        router.push({ name: "MainView" });
+      } else {
+        router.push({ name: "RandingView" });
       }
     };
     const login = () => {
-      router.push({name: "LoginView"})
+      router.push({ name: "LoginView" });
     };
     const logout = () => {
       Swal.fire({
-        title: 'CURI@US',
+        title: "CURI@US",
         text: "로그아웃 하시겠습니까?",
-        icon: 'warning',
+        icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes'
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes",
       }).then((result) => {
         if (result.isConfirmed) {
-          account.value.logout()
+          account.value.logout();
         }
-      })
+      });
     };
     return {
       account,
       login,
       logout,
-      main
+      main,
     };
   },
 };
@@ -60,10 +60,10 @@ export default {
 
 <style scoped>
 @font-face {
-    font-family: 'BMJUA_ttf';
-    src: url(../assets/BMJUA_ttf.ttf);
-    font-weight: normal;
-    font-style: normal;
+  font-family: "BMJUA_ttf";
+  src: url(../assets/BMJUA_ttf.ttf);
+  font-weight: normal;
+  font-style: normal;
 }
 .nav-bar {
   position: fixed;
@@ -73,6 +73,7 @@ export default {
   align-items: center;
   width: 100vw;
   height: 8vh;
+  z-index: 1;
 }
 
 .nav-bar-login {
@@ -86,7 +87,7 @@ export default {
   height: 5vh;
   margin-left: 7vw;
 }
-.nav-laft{
+.nav-laft {
   display: flex;
 }
 
