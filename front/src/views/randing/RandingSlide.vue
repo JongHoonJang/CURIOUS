@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import "vue3-carousel/dist/carousel.css";
-import { Carousel, Slide } from "vue3-carousel";
+import 'vue3-carousel/dist/carousel.css';
+import { Carousel, Slide } from 'vue3-carousel';
 
 export default {
   components: {
@@ -19,10 +19,10 @@ export default {
   },
   setup() {
     const slides = [
-      { id: "1", imgUrl: "landingSlide1.png" },
-      { id: "2", imgUrl: "landingSlide2.png" },
-      { id: "3", imgUrl: "landingSlide3.png" },
-      { id: "4", imgUrl: "landingSlide4.png" },
+      { id: '1', imgUrl: 'landingSlide1.png' },
+      { id: '2', imgUrl: 'landingSlide2.png' },
+      { id: '3', imgUrl: 'landingSlide3.png' },
+      { id: '4', imgUrl: 'landingSlide4.png' },
     ];
     return {
       slides,
