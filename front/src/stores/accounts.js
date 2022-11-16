@@ -109,7 +109,7 @@ export const useAccountStore = defineStore('accounts', {
           icon: 'success', 
         })
         this.removeToken()
-        router.push({name:"RandingView"})
+        router.push({name:'RandingView'})
       })
       .catch(error => {
         if (error.response.status==401){
