@@ -1,20 +1,20 @@
 <template>
-  <div class="Page">
-    <div class="Nav">
+  <div class='Page'>
+    <div class='Nav'>
 
     </div>
-    <div class="All">
-      <div class="Title">
-        <h1 class="TitleText">지하철 사고</h1>
-        <img @click="account.fetchProfile()" class="Image" src="@/assets/mainpage/train.png" alt="train" />
+    <div class='All'>
+      <div class='Title'>
+        <h1 class='TitleText'>지하철 사고</h1>
+        <MainImage class='Image'/>
       </div>
-      <div class="Detail">
-        <div class="DetailBox">
-          <button class="Create">방 생성하기</button>
-          <form class="InputArea">
-            <input type="text" class="Input" placeholder="코드를 입력하세요." />
-            <button class="Join">입장하기</button>
-            <!-- <button class="Join" @click="onClickRedirect()>입장하기</button> -->
+      <div class='Detail'>
+        <div class='DetailBox'>
+          <!-- <button class='Create'>방 생성하기</button> -->
+          <form class='InputArea'>
+            <!-- <input type='text' class='Input' placeholder='코드를 입력하세요.' />
+            <button class='Join'>입장하기</button> -->
+            <button class='Join' @click='onClickRedirect()'>입장하기</button>
             
           </form>
         </div>
@@ -24,21 +24,17 @@
 </template>
 
 <script>
-import { useAccountStore } from "@/stores/accounts";
+import MainImage from './MainImage.vue';
+import router from '@/router';
 export default {
+  components: { MainImage },
   methods: {
     onClickRedirect: function () {   
-          window.open(process.env.VUE_APP_API_URL + "");    
+        let route = router.resolve({ path: '/metaverse'});
+        window.open(route.href);   
       }
   },
-  setup(){
-    const account = useAccountStore();
-    // account.fetchProfile()
 
-    return {
-      account
-    }
-  }
 
 }
 </script>
@@ -86,8 +82,8 @@ body{
 .TitleText {
   text-align: start;
   width: 41.5vw;
-  margin-left: 3vw;
-  font-family: "BMJUA_ttf";
+  margin-left: 6vw;
+  font-family: 'BMJUA_ttf';
   overflow: hidden;
 }
 .Detail {
@@ -116,7 +112,7 @@ body{
   box-shadow: 10px 15px 4px rgba(0, 0, 0, 0.25);
   border-radius: 30px;
   top: 10vh;
-  font-family: "BMJUA_ttf";
+  font-family: 'BMJUA_ttf';
   font-style: normal;
   font-size: 3rem;
   overflow: hidden;
@@ -129,7 +125,7 @@ body{
   border-radius: 30px;
   position: relative;
   text-align: center;
-  font-family: "BMJUA_ttf";
+  font-family: 'BMJUA_ttf';
   font-style: normal;
   font-size: 3rem;
   display: flex;
@@ -143,7 +139,7 @@ body{
   height: 8vh;
   border-style: none;
   border-radius: 30px;
-  font-family: "BMJUA_ttf";
+  font-family: 'BMJUA_ttf';
   font-style: normal;
   box-shadow: 10px 15px 4px rgba(0, 0, 0, 0.25);
   font-size: 1.5em;

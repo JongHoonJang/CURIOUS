@@ -10,13 +10,3 @@ export default {
     delete: () => HOST + ACCOUNTS + '/delete'
   },
 };
-
-// export default {
-//   accounts: {
-//     login: type => '/api' + ACCOUNTS + `/${type}` + CALLBACK,
-//     profile: () => '/api' + ACCOUNTS + '/mypage',
-//     logout: () => '/api' + ACCOUNTS + '/logout',
-//     reissue: () => '/api' + ACCOUNTS + '/reissue',
-//     delete: () => '/api' + ACCOUNTS + '/delete'
-//   },
-// }
