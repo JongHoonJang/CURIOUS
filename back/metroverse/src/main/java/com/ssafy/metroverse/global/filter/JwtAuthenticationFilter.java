@@ -25,6 +25,8 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 		ServletException {
 		// 헤더에서 JWT 받아옴
 		String token = jwtTokenProvider.resolveToken((HttpServletRequest)request);
+		logger.info(((HttpServletRequest)request).getRequestURI());
+		logger.info(((HttpServletRequest)request).getRequestURL());
 		logger.info(token);
 		// 유효한 토큰인지 확인
 		if (token != null && jwtTokenProvider.validateToken(token)) {
