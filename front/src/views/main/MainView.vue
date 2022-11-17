@@ -10,11 +10,11 @@
       </div>
       <div class='Detail'>
         <div class='DetailBox'>
-          <button class='Create'>방 생성하기</button>
+          <!-- <button class='Create'>방 생성하기</button> -->
           <form class='InputArea'>
-            <input type='text' class='Input' placeholder='코드를 입력하세요.' />
-            <button class='Join'>입장하기</button>
-            <!-- <button class='Join' @click='onClickRedirect()'>입장하기</button> -->
+            <!-- <input type='text' class='Input' placeholder='코드를 입력하세요.' />
+            <button class='Join'>입장하기</button> -->
+            <button class='Join' @click='onClickRedirect()'>입장하기</button>
             
           </form>
         </div>
@@ -25,12 +25,13 @@
 
 <script>
 import MainImage from './MainImage.vue';
-
+import router from '@/router';
 export default {
   components: { MainImage },
   methods: {
     onClickRedirect: function () {   
-          window.open(process.env.VUE_APP_API_URL + '');    
+        let route = router.resolve({ path: '/metaverse'});
+        window.open(route.href);   
       }
   },
 
