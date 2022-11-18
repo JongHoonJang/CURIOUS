@@ -1,6 +1,7 @@
 <template>
   <div class="meta-box">
-    <div style="width: 960px; height: 600px; border: 1px solid #f00">
+    <div style="width: 960px; height: 600px;">
+      <img class="keyset" src="@/assets/mainpage/image8.jpg" alt="">
       <div class="lds-facebook">                   
         <div>
         </div>
@@ -9,7 +10,7 @@
         <div>
         </div>
       </div>
-      <canvas id="canvas" ref="canvasRef" width="1200" height="750" style="width: 960px; height: 600px;" />
+      <canvas id="canvas" ref="canvasRef" style="width: 960px; height: 600px;" />
     </div>
   </div>
 </template>
@@ -54,7 +55,7 @@ onMounted(() => {
   position: absolute;
   width: 64px;
   height: 64px;
-  top: 47%;
+  top: 70%;
   left: 47%;
 }
 .lds-facebook div {
@@ -86,5 +87,10 @@ onMounted(() => {
     top: 19px;
     height: 26px;
   }
+}
+.keyset {
+  position: absolute;
+  top: calc(50% - 200px);
+  left: calc(50% - 350px);
 }
 </style>
