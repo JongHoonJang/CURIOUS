@@ -1,7 +1,7 @@
 <template>
   <div class="meta-box">
-    <div style="width: 1000px; height: 600px; border: 1px solid #f00">
-      <canvas id="canvas" ref="canvasRef" style="width: 100%; height: 100%" />
+    <div style="width: 960px; height: 600px; border: 1px solid #f00">
+      <canvas id="canvas" ref="canvasRef" width="1200" height="750" style="width: 960px; height: 600px;" />
     </div>
   </div>
 </template>
