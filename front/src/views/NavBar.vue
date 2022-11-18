@@ -24,11 +24,7 @@ export default {
   setup() {
     const account = ref(useAccountStore());
     const main = () => {
-      if(account.value.isLoggedIn){
-        router.push({name:'MainView'})
-      }else{
-        router.push({name:'RandingView'})
-      }
+      router.push({name:'RandingView'})
     };
     const login = () => {
       router.push({name: 'LoginView'})
