@@ -37,9 +37,9 @@ onBeforeUnmount(() => {
 
 <style>
 .meta-box {
-  display: flex;
-  justify-content: center;
-  margin-top: 50px;
+  position: absolute;
+  top: calc(50% - 300px);
+  left: calc(50% - 500px);
 }
 
 </style>
