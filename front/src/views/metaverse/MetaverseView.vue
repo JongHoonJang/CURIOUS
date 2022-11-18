@@ -10,31 +10,31 @@
         <div>
         </div>
       </div>
-      <!-- <canvas id="canvas" ref="canvasRef" style="width: 960px; height: 600px;" /> -->
+      <canvas id="canvas" ref="canvasRef" style="width: 960px; height: 600px;" />
     </div>
   </div>
 </template>
 
 <script setup>
-// import { ref, onMounted } from 'vue';
-// import UnityWebgl from 'unity-webgl';
+import { ref, onMounted } from 'vue';
+import UnityWebgl from 'unity-webgl';
 
-// const canvasRef = ref(null);
-// let unityComponent = ref(null);
-// onMounted(() => {
-//   if (!unityComponent.value) {
-//     unityComponent.value = new UnityWebgl(canvasRef.value, {
-//       loaderUrl:
-//         'Build/curious.loader.js',
-//       dataUrl:
-//         'Build/curious.data.unityweb',
-//       frameworkUrl:
-//         'Build/curious.framework.js.unityweb',
-//       codeUrl:
-//         'Build/curious.wasm.unityweb',
-//     });
-//   }
-// });
+const canvasRef = ref(null);
+let unityComponent = ref(null);
+onMounted(() => {
+  if (!unityComponent.value) {
+    unityComponent.value = new UnityWebgl(canvasRef.value, {
+      loaderUrl:
+        'Build/curious.loader.js',
+      dataUrl:
+        'Build/curious.data.unityweb',
+      frameworkUrl:
+        'Build/curious.framework.js.unityweb',
+      codeUrl:
+        'Build/curious.wasm.unityweb',
+    });
+  }
+});
 </script>
 
 <style>
