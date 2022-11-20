@@ -3,7 +3,7 @@ import RandingView from '@/views/randing/RandingView';
 import LoginView from '@/views/account/LoginView';
 import ProfileView from '@/views/account/ProfileView';
 import MetaverseView from '@/views/metaverse/MetaverseView';
-import MainView from '@/views/main/MainView';
+import MainView2 from '@/views/main/MainView2';
 import NaverLogin from '@/views/account/NaverLogin';
 import KakaoLogin from '@/views/account/KakaoLogin';
 import GoogleLogin from '@/views/account/GoogleLogin';
@@ -45,8 +45,8 @@ const routes = [
   },
   {
     path: '/main',
-    name: 'MainView',
-    component: MainView
+    name: 'MainView2',
+    component: MainView2
   },
 ];
 
