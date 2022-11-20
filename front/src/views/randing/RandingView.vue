@@ -1,29 +1,53 @@
 <template>
   <div>
-    <div class="main">
-      <img class="main-img" src="@/assets/landing/dumpMain.png" alt="" />
-    </div>
-    <div class="sub">
-      <div class="sub1 part">
-        <img data-aos="fade-down-right" class="sub1-img" src="@/assets/landing/landingSub1.png" alt="" />
-        <div class="text">
-          메타버스
+    <div
+      class="landingLine"
+      :style="{ backgroundImage: 'url(' + require(`@/assets/landing/landing_line.png`) + ')', 'background-repeat': 'no-repeat', 'background-size': 'contain', 'background-position': 'center' }"
+    >
+      <!-- 1번 메인 페이지, 애니메이션 예정 -->
+      <section class="first">
+        <RandingSlide class="first-img" />
+      </section>
+      <!-- 2번 메인 페이지 -->
+      <section class="second">
+        <div class="second-one-img text" data-aos="fade-up">
+          <img src="@/assets/landing/landingSubwayFire.png" alt="" />
           <br />
-          안전 교육
+          지하철 화재상황
         </div>
-      </div>
-      <div class="sub2 part">
-        <img data-aos="fade-down-left" class="sub2-img" src="@/assets/landing/landingSub2.png" alt="" />
-        <div class="text">
-          퀴즈로
+        <div class="second-two-img text" data-aos="fade-down">
+          <img src="@/assets/landing/landingExit.png" alt="" />
           <br />
-          학습과 체크
+          제한시간은 5분!
         </div>
-      </div>
-      <div class="sub3 part">
-        <img data-aos="zoom-in" class="sub3-img" src="@/assets/landing/landingSub3.png" alt="" />
-        <div class="text">멋진 추억</div>
-      </div>
+      </section>
+      <!-- 3번 메인 페이지 -->
+      <section class="third">
+        <div class="third-one-img" data-aos="fade-up-right">
+          <img src="@/assets/landing/landingTrainFire.png" alt="" />
+        </div>
+        <div class="third-two-img text" data-aos="zoom-in-up">
+          <img src="@/assets/landing/landingStudy.png" alt="" />
+          <br />
+          화재 안전 교육도 함께
+        </div>
+        <div class="third-one-img text" data-aos="fade-up-left">
+          <img src="@/assets/landing/landingFireExtinguisher.png" alt="" />
+        </div>
+      </section>
+      <!-- 4번 메인 페이지, 시작하기 -->
+      <section class="fourth">
+        <div class="fourth-two-img text" data-aos="fade-down-right">
+          <img src="@/assets/landing/landingSaffy.png" alt="" />
+          <br />
+          CURI@US
+        </div>
+        <div class="fourth-one-img text" data-aos="fade-down-left">
+          <img src="@/assets/landing/landingStart.png" alt="" />
+          <br />
+          시작하기
+        </div>
+      </section>
       <div class="wrap">
         <button class="button" @click="start()">시작하기</button>
       </div>
@@ -32,11 +56,21 @@
 </template>
 
 <script>
+import { useAccountStore } from "@/stores/accounts";
 import router from "@/router";
+import { ref } from "vue";
+import RandingSlide from "@/views/randing/RandingSlide.vue";
+
 export default {
+  components: { RandingSlide },
   setup() {
+    const account = ref(useAccountStore());
     const start = () => {
-      router.push({ name: "MainView" });
+      if (account.value.isLoggedIn) {
+        router.push({ name: "MainView2" });
+      } else {
+        router.push({ name: "LoginView" });
+      }
     };
 
     return {
@@ -46,47 +80,100 @@ export default {
 };
 </script>
 
-<style>
-.main {
-  margin-top: 8vh;
+<style scoped>
+@font-face {
+  font-family: "BMJUA_ttf";
+  src: url(../../assets/BMJUA_ttf.ttf);
+  font-weight: normal;
+  font-style: normal;
 }
 
-.main-img {
-  height: 90vh;
+img {
+  height: 25vh;
+}
+section {
+  height: 100vh;
   width: 100vw;
+  display: flex;
+  flex-direction: column;
+}
+
+section.first {
+  justify-items: center;
+}
+
+section.second {
+  align-items: stretch;
+}
+
+.second-one-img {
+  margin-left: 10vw;
+  align-self: flex-start;
+}
+
+.second-two-img {
+  margin-right: 10vw;
+  align-self: flex-end;
+}
+
+.third-one-img {
+  margin-left: 15vw;
+  align-self: flex-start;
+}
+
+.third-two-img {
+  margin-right: 15vw;
+  align-self: flex-end;
+}
+
+.fourth-one-img {
+  margin-left: 15vw;
+  align-self: flex-start;
+}
+
+.fourth-two-img {
+  margin-right: 15vw;
+  align-self: flex-end;
+}
+
+.third {
+  align-items: stretch;
+}
+
+.fourth {
+  align-items: stretch;
 }
 
 .text {
-  font-family: "BM HANNA_TTF";
+  font-family: "BMJUA_ttf";
   font-style: normal;
   font-weight: 400;
-  font-size: 4rem;
+  font-size: 3rem;
+  text-align: center;
 }
-.part {
+
+.fourth-text {
+  margin-right: 10vw;
+}
+
+.first-img {
+  align-self: center;
+  margin-top: 15vh;
+  height: 100vh;
   width: 100vw;
+}
+
+.second-img {
+  margin-top: 20vh;
   height: 60vh;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-}
-.sub1 {
-  flex-direction: row;
 }
 
-.sub1-img {
-  height: 100%;
+.third-img {
+  height: 60vh;
 }
 
-.sub2 {
-  flex-direction: row-reverse;
-}
-
-.sub2-img {
-  height: 100%;
-}
-
-.sub3-img {
-  height: 100%;
+.fourth-img {
+  height: 70vh;
 }
 
 /* 버튼 CSS */
@@ -98,10 +185,10 @@ export default {
 }
 
 .button {
-  width: 140px;
-  height: 45px;
-  font-family: "Roboto", sans-serif;
-  font-size: 11px;
+  width: 180px;
+  height: 60px;
+  font-family: "BMJUA_ttf";
+  font-size: 20px;
   text-transform: uppercase;
   letter-spacing: 2.5px;
   font-weight: 500;
@@ -113,6 +200,7 @@ export default {
   transition: all 0.3s ease 0s;
   cursor: pointer;
   outline: none;
+  margin-bottom: 10vh;
 }
 
 .button:hover {

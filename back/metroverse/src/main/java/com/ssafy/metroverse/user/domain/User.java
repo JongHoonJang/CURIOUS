@@ -2,12 +2,19 @@ package com.ssafy.metroverse.user.domain;
 
 import java.util.Collection;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.ssafy.metroverse.global.model.Gender;
+import com.ssafy.metroverse.global.model.Role;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -27,11 +34,12 @@ public class User implements UserDetails {
 	private Integer id;
 	@Column(unique = true, nullable = false)
 	private String email;
-	private Integer age;
-	@Column(unique = true, nullable = false)
+	@Column(unique = false, nullable = false)
 	private String nickname;
+	private String refreshToken;
 	@Enumerated(EnumType.STRING)
-	private Gender gender;
+	private Role role;
+	private String imageSrc;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -45,7 +53,7 @@ public class User implements UserDetails {
 
 	@Override
 	public String getUsername() {
-		return email;
+		return this.getEmail();
 	}
 
 	@Override
@@ -66,5 +74,13 @@ public class User implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return true;
+	}
+
+	public void updateImageSrc(String imageSrc) {
+		this.imageSrc = imageSrc;
+	}
+
+	public void updateRefreshToken(String refreshToken) {
+		this.refreshToken = refreshToken;
 	}
 }
