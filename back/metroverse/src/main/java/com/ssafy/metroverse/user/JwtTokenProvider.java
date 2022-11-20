@@ -6,6 +6,8 @@ import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Component;
 import com.ssafy.metroverse.user.service.UserService;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -23,11 +26,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Component
 public class JwtTokenProvider {
-	@Value("Metroverse107!")
+	@Value("Curious107!")
 	private String secretKey;
-	// 토큰 유효시간 30분
-	private final long tokenValidTime = 30 * 60 * 1000L;
+	private final long tokenValidTime = 30 * 60 * 1000L; // access 토큰 유효시간 30분
+	private final long refreshTokenVaildTime = 7 * 24 * 60 * 60 * 1000L; // refresh 토큰 유효시간 7일
 	private final UserService userService;
+	private final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
 
 	// 객체 초기화, secretKey를 Base64로 인코딩
 	@PostConstruct
@@ -52,12 +56,26 @@ public class JwtTokenProvider {
 			.compact();
 	}
 
+	public String createRefreshToken(String email) {
+		Claims claims = Jwts.claims().setSubject(email);
+		System.out.println("Create : " + email);
+		Date now = new Date();
+		return Jwts.builder()
+			.setClaims(claims)
+			.setIssuedAt(now)
+			.setExpiration(new Date(now.getTime() + refreshTokenVaildTime))
+			.signWith(SignatureAlgorithm.HS256, secretKey)
+			.compact();
+	}
+
 	/**
 	 * JWT 토큰에서 인증 정보 조회
 	 * @param token JWT 토큰
 	 * @return 인증 정보
 	 */
 	public Authentication getAuthentication(String token) {
+		System.out.println("????????????????");
+		System.out.println(this.getUserId(token));
 		UserDetails userDetails = userService.loadUserByUsername(this.getUserId(token));
 		return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
 	}
@@ -67,8 +85,15 @@ public class JwtTokenProvider {
 	 * @param token JWT 토큰
 	 * @return 회원 정보
 	 */
-	public String getUserId(String token) {
-		return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+	public String getUserId(String token) throws ExpiredJwtException {
+		try {
+			logger.info(token);
+			// logger.info(Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject());
+			return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token.substring(7)).getBody().getSubject();
+		} catch (ExpiredJwtException e) {
+			return e.getClaims().getSubject();
+		}
+
 	}
 
 	/**
@@ -87,7 +112,7 @@ public class JwtTokenProvider {
 	 */
 	public boolean validateToken(String jwtToken) {
 		try {
-			Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
+			Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken.substring(7));
 			return !claims.getBody().getExpiration().before(new Date());
 		} catch (Exception e) {
 			return false;
