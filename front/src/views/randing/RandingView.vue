@@ -56,10 +56,10 @@
 </template>
 
 <script>
-import { useAccountStore } from '@/stores/accounts';
-import router from '@/router';
-import { ref } from 'vue';
-import RandingSlide from '@/views/randing/RandingSlide.vue';
+import { useAccountStore } from "@/stores/accounts";
+import router from "@/router";
+import { ref } from "vue";
+import RandingSlide from "@/views/randing/RandingSlide.vue";
 
 export default {
   components: { RandingSlide },
@@ -67,9 +67,9 @@ export default {
     const account = ref(useAccountStore());
     const start = () => {
       if (account.value.isLoggedIn) {
-        router.push({ name: 'MainView' });
+        router.push({ name: "MainView2" });
       } else {
-        router.push({ name: 'LoginView' });
+        router.push({ name: "LoginView" });
       }
     };
 
@@ -82,7 +82,7 @@ export default {
 
 <style scoped>
 @font-face {
-  font-family: 'BMJUA_ttf';
+  font-family: "BMJUA_ttf";
   src: url(../../assets/BMJUA_ttf.ttf);
   font-weight: normal;
   font-style: normal;
@@ -145,7 +145,7 @@ section.second {
 }
 
 .text {
-  font-family: 'BMJUA_ttf';
+  font-family: "BMJUA_ttf";
   font-style: normal;
   font-weight: 400;
   font-size: 3rem;
@@ -187,7 +187,7 @@ section.second {
 .button {
   width: 180px;
   height: 60px;
-  font-family: 'BMJUA_ttf';
+  font-family: "BMJUA_ttf";
   font-size: 20px;
   text-transform: uppercase;
   letter-spacing: 2.5px;
