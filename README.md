@@ -119,8 +119,6 @@ Can U Respond In @ Subway emergency?<br>
 
 피그마를 활용하여 작성함
 
-처음 와이어프레임 기획단계에서는 웹 화면으로 구상하였으나, 피드백을 받고 모바일 화면으로 전환함
-
 ![image](https://user-images.githubusercontent.com/65770658/202905725-e320b5b4-8fb6-4aa6-9c18-db4a804f56c5.png)
 ![image](https://user-images.githubusercontent.com/65770658/202905745-f72648e4-76e9-46e8-a7cd-63f39db6ba23.png)
 
