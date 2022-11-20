@@ -101,7 +101,7 @@ Can U Respond In @ Subway emergency?<br>
 >&nbsp;|WebServer|Nginx|1.18.0
 
 ### 📬배포 방법
->- [[링크 참조](/exec/1_2_TechStack.md)]
+>- [[링크 참조](/산출물/포팅메뉴얼.md)]
 
 <br>
 
